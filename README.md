@@ -14,14 +14,15 @@ One Python DSA problem a day. For each problem I write a brute-force solution fi
 
 ```
 day-NNN-problem-name/
-├── solution.py   # every approach as its own function, brute force first
-└── notes.md      # problem, approach comparison, mistakes, key takeaway
+├── solution_1_brute_force.py   # first approach
+├── solution_2_<name>.py        # each better approach in its own file
+└── notes.md                    # problem, approach comparison, mistakes, key takeaway
 ```
 
 Run any solution file directly to execute its tests:
 
 ```bash
-python day-001-two-sum/solution.py
+python day-001-two-sum/solution_1_brute_force.py
 ```
 
 ## Topics
