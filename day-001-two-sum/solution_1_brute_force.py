@@ -53,14 +53,16 @@ if __name__ == '__main__':
         ([0, 4, 3, 0], 0, [0, 3]),            # zeros
     ]
 
-    for nums, target, expected in cases:
+    for nums, target, expected in cases: 
         result = s.twoSum(nums, target)
         
         # assert condition, message:
         #   If condition is True, nothing happens and the code keeps going.
-        #   If it’s False, Python stops with an AssertionError that shows message
+        #   If it’s False, Python stops at that case with an AssertionError that shows message
         assert result == expected, f"{nums}, {target}: got {result}, expected {expected}"
         
+        # !r tells the f-string to show a value using repr() instead of str() - Used in print testing statements
+        print(f" PASS nums = {nums!r}, target = {target!r} -> {result}") 
 
     # (nums, target, expected exception)
     bad_inputs = [
@@ -70,12 +72,18 @@ if __name__ == '__main__':
         ([1, "2"], 3, TypeError),             # non-int element
     ]
     
+    # try:
+    #     # code that might raise an error
+    # except SomeError as e:
+    #     # runs ONLY if SomeError was raised in try
+    # else:
+    #     # runs ONLY if try finished with NO error
     for nums, target, exc in bad_inputs:
         try:
             s.twoSum(nums, target)
-        except exc:
-            pass
+        except exc as e:
+            print(f"  PASS  nums={nums!r}, target={target!r} -> {exc.__name__}: {e}")
         else:
-            raise AssertionError(f"Expected {exc.__name__} for {nums!r}, {target!r}")
+            raise AssertionError(f"FAIL  nums={nums!r}, target={target!r} -> returned {result}, expected {exc.__name__}")
 
-
+    print("\nAll tests passed")
