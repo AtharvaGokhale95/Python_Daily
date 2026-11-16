@@ -8,7 +8,8 @@ One Python DSA problem a day. For each problem I write a brute-force solution fi
 
 | Day | Date | Problem | Topic | Difficulty | Approaches | Folder |
 |----:|------|---------|-------|------------|-----------:|--------|
-| 1 | 2026-11-14 | [Two Sum](https://leetcode.com/problems/two-sum/) | Arrays & Hashing | Easy | — | [day-001-two-sum](day-001-two-sum/) |
+| 1 | 2026-11-14 | [Two Sum](https://leetcode.com/problems/two-sum/): brute force | Arrays & Hashing | Easy | 1 | [day-001-two-sum](day-001-two-sum/) |
+| 2 | 2026-11-15 | [Two Sum](https://leetcode.com/problems/two-sum/): one-pass hash map | Arrays & Hashing | Easy | 1 | [day-001-two-sum](day-001-two-sum/) |
 
 ## How each folder is organized
 

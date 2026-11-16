@@ -9,8 +9,8 @@ Given a list of integers `nums` and an integer `target`, return the indices of t
 
 | # | Approach | Time | Space |
 |---|----------|------|-------|
-| 1 | Brute force (check every pair) | O(n²) | O(1) |
-| 2 | Optimized | | |
+| 1 | Brute force, check every pair (Day 1) | O(n²) | O(1) |
+| 2 | One-pass hash map (Day 2) | O(n) | O(n) |
 
 ### 1. Brute force
 _Idea:_ Check every pair `(i, j)` with `i < j` and return the first pair whose values add up to `target`. Simple and needs no extra memory, but the nested loops make it O(n²).
@@ -91,11 +91,62 @@ Also validates input: raises `TypeError` for a non-list or non-int values and `V
 | `"123"` | `3` | `TypeError` | `nums` is not a list |
 | `[1, "2"]` | `3` | `TypeError` | A non-int element |
 
-### 2. Optimized
-_Idea:_
+### 2. One-pass hash map
+_Idea:_ For each number, the partner it needs is `target - num`. Keep a dict of numbers already seen → their index. If the partner is already in the dict, the pair is found. Otherwise store the current number and move on. One pass over the list, and each dict lookup is O(1) on average, so O(n) time. The dict can hold up to n entries, so O(n) space.
+
+**Why check before storing:** for `[3, 3]` with target `6`, checking first means index 0 is stored, then index 1 finds `3` already in `seen` and returns `[0, 1]`. For `[3, 2, 4]` with target `6`, it stops `3` from pairing with itself, because `3` isn't in `seen` yet when it is checked.
+
+#### Code walkthrough: Approach 2
+
+Everything in `_validate`, the class structure, docstring, `raise`, `try / except / else`, `assert`, `!r` and `if __name__ == "__main__":` works the same as in Approach 1 (see that walkthrough). New in this approach:
+
+**Structure and syntax**
+
+| Element | Where | What it does |
+|---|---|---|
+| `seen: dict[int, int] = {}` | before the loop | Creates an empty dict. `dict[int, int]` is a variable annotation: keys are ints (values from `nums`), values are ints (their indices). |
+| `{}` | `seen = {}` | Empty dict literal. (An empty set is `set()`, not `{}`.) |
+| `# value -> index` | comment | Documents what the dict maps. |
+| `for i, num in enumerate(nums):` | loop | `enumerate` yields `(index, value)` pairs; tuple unpacking puts them into `i` and `num`. Replaces `for i in range(len(nums))` plus `nums[i]`. |
+| `complement = target - num` | loop body | `-` subtraction: the value that would complete the pair. |
+| `complement in seen` | `if` | `in` on a dict checks the **keys**. Uses hashing, so it's O(1) on average, which is what removes the inner loop. |
+| `seen[complement]` | `return` | Looks up the stored index for that key. |
+| `return [seen[complement], i]` | loop body | The earlier index comes first, so the result is always `[i, j]` with `i < j`. |
+| `seen[num] = i` | loop body | Adds or overwrites the key `num` with its index. |
+| `# check BEFORE storing num` | comment | Marks the order that prevents pairing a number with itself. |
+
+**Test harness additions**
+
+| Element | What it does here |
+|---|---|
+| `100_000` | `_` inside a number is a digit separator for readability. `100_000 == 100000`. |
+| `list(range(100_000))` | Builds `[0, 1, ..., 99999]` to test a large input. |
+| `label = A if cond else B` | Conditional expression (Python's ternary). Prints `len=100000` instead of the whole list when an assertion fails on a big input. |
+| `len(nums) > 10` | Comparison deciding which label to use. |
+| `print("All tests passed")` | Prints only if every `assert` and expected exception passed, since any failure stops the script first. |
+
+**Test cases**
+
+| Input `nums` | `target` | Expected | What it checks |
+|---|---|---|---|
+| `[2, 7, 11, 15]` | `9` | `[0, 1]` | Basic case |
+| `[3, 2, 4]` | `6` | `[1, 2]` | Can't use index 0 twice (`3 + 3`) |
+| `[3, 3]` | `6` | `[0, 1]` | Duplicate values at different indices |
+| `[-1, -2, -3, -4, -5]` | `-8` | `[2, 4]` | Negative numbers |
+| `[0, 4, 3, 0]` | `0` | `[0, 3]` | Zeros |
+| `[5, 1, 9, 4]` | `13` | `[2, 3]` | Answer at the very end |
+| `[-3, 4, 3, 90]` | `0` | `[0, 2]` | Negative + positive |
+| `list(range(100_000))` | `199_997` | `[99_998, 99_999]` | Large input; finishes instantly in O(n), would take ~5 billion checks in O(n²) |
+| `[1, 2, 3]` | `100` | `ValueError` | No pair adds up to target |
+| `[]` | `0` | `ValueError` | Empty list (loop never runs) |
+| `[5]` | `10` | `ValueError` | One element can't pair with itself |
+| `"123"` | `3` | `TypeError` | `nums` is not a list |
+| `[1, "2"]` | `3` | `TypeError` | A non-int element |
+| `[1, 2]` | `"3"` | `TypeError` | `target` is not an int |
 
 ## Mistakes / edge cases
 - Tested: basic case, can't reuse the same index, duplicates, negatives, zeros, no solution, empty list, wrong types.
 - `bool` is a subclass of `int` in Python, so `[True, 1]` passes validation.
 
 ## Key takeaway
+Trade space for time: storing what you've already seen in a dict turns a "search the rest of the list" step (O(n)) into a lookup (O(1)), taking the whole solution from O(n²) to O(n).
