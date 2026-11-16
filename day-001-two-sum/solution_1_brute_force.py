@@ -62,7 +62,7 @@ if __name__ == '__main__':
         assert result == expected, f"{nums}, {target}: got {result}, expected {expected}"
         
         # !r tells the f-string to show a value using repr() instead of str() - Used in print testing statements
-        print(f" PASS nums = {nums!r}, target = {target!r} -> {result}") 
+        print(f"PASS nums = {nums!r}, target = {target!r} -> {result}") 
 
     # (nums, target, expected exception)
     bad_inputs = [
@@ -82,7 +82,7 @@ if __name__ == '__main__':
         try:
             s.twoSum(nums, target)
         except exc as e:
-            print(f"  PASS  nums={nums!r}, target={target!r} -> {exc.__name__}: {e}")
+            print(f"PASS nums = {nums!r}, target = {target!r} -> {exc.__name__}: {e}")
         else:
             raise AssertionError(f"FAIL  nums={nums!r}, target={target!r} -> returned {result}, expected {exc.__name__}")
 
