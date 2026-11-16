@@ -91,6 +91,26 @@ Also validates input: raises `TypeError` for a non-list or non-int values and `V
 | `"123"` | `3` | `TypeError` | `nums` is not a list |
 | `[1, "2"]` | `3` | `TypeError` | A non-int element |
 
+#### Correction (2026-11-16)
+
+Same algorithm (O(n²) time, O(1) space). Changes to the code:
+
+| Change | What it does |
+|---|---|
+| `target` is validated before the elements of `nums` | A wrong-type `target` is now reported without first scanning the whole list. |
+| `# ...` explanatory comments | Notes on `isinstance`, `assert`, `!r` and `try / except / else` written right in the code. |
+| `print(f"PASS ... -> {result}")` after each `assert` | Shows every passing case instead of staying silent. |
+| `except exc as e:` | `as e` binds the caught exception object to the name `e`. |
+| `{e}` inside the f-string | Inserts `str(e)`, which is the exception's message, e.g. `nums must be a list, got str`. |
+| `"\nAll tests passed"` | `\n` is an escape sequence for a newline, so a blank line is printed first. |
+| `'__main__'` in single quotes | Same as `"__main__"`: Python treats single and double quotes the same. |
+| `f"No two numbers add up to target"` | An f-string with no `{ }` placeholders. It works, but the `f` does nothing, and the message no longer includes the target's value. |
+
+Review notes:
+- In the `else:` branch, `{result}` refers to the last value from the earlier `cases` loop, not to anything `twoSum` returned for this bad input. If that branch ever ran, the message would show the wrong value. Fix: `result = s.twoSum(nums, target)` inside the `try`.
+- `f"Every element of nums must be an int"` also has no placeholders, so the `f` can be dropped.
+- PEP 8 style puts a space after the colon in type hints (`nums: list[int]`) and around operators (`n - 1`, `i + 1`).
+
 ### 2. One-pass hash map
 _Idea:_ For each number, the partner it needs is `target - num`. Keep a dict of numbers already seen → their index. If the partner is already in the dict, the pair is found. Otherwise store the current number and move on. One pass over the list, and each dict lookup is O(1) on average, so O(n) time. The dict can hold up to n entries, so O(n) space.
 
@@ -143,6 +163,32 @@ Everything in `_validate`, the class structure, docstring, `raise`, `try / excep
 | `"123"` | `3` | `TypeError` | `nums` is not a list |
 | `[1, "2"]` | `3` | `TypeError` | A non-int element |
 | `[1, 2]` | `"3"` | `TypeError` | `target` is not an int |
+
+#### Correction (2026-11-16)
+
+Same algorithm (O(n) time, O(n) space). Changes to the code:
+
+| Change | What it does |
+|---|---|
+| `Args:` section in the docstring | Documents each parameter as `name (type): description`. |
+| `Returns:` section in the docstring | Documents what the method gives back. |
+| Comment block above the class | Explains the chain: the docstring's `Raises:` promises the errors, `_validate` raises them, and the `except` tests prove it. |
+| Inline `#` comments | Explain `seen`'s keys and values, what `enumerate` yields, and why `num` is stored after the check. |
+| `isinstance(num, int) for num in nums` | Same generator expression as before, with `num` as the loop name instead of `x`. |
+| `def short(nums) -> str:` | A module-level helper function (outside the class). It formats `nums` for printing. |
+| `A if cond else B` in `short` | Conditional expression: returns a summary for long lists, otherwise the full list. |
+| `isinstance(nums, list) and len(nums) > 10` | `and` short-circuits: if `nums` isn't a list, `len(nums)` is never evaluated. |
+| `{len(nums):,}` | `:` starts a format spec inside the f-string; `,` adds thousands separators, so `100000` prints as `100,000`. |
+| `repr(nums)` | Returns the developer-style text of a value, the same thing `!r` does inside an f-string. |
+| `print(f"PASS ... {short(nums)} ...")` | Prints each passing case, with long lists shortened. |
+| `except exc as e:` and `{e}` | Binds the caught exception to `e` and prints its message. |
+| New message `"No two numbers in nums add up to {target}"` | Includes the target's value in the error. |
+
+Review notes:
+- In the `else:` branch, `{result}` holds the last value from the `cases` loop (`[99998, 99999]`), not anything from this call. Fix: `result = s.twoSum(nums, target)` inside the `try`.
+- The `assert` message uses `{nums}` rather than `{short(nums)}`, so if the large test ever failed it would print all 100,000 numbers.
+- `f"Every element in nums must be an int"` has no placeholders, so the `f` can be dropped.
+- Typo in the docstring: "intergers" → "integers".
 
 ## Mistakes / edge cases
 - Tested: basic case, can't reuse the same index, duplicates, negatives, zeros, no solution, empty list, wrong types.
