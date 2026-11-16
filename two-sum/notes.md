@@ -1,4 +1,4 @@
-# Day 1: Two Sum
+# Two Sum
 
 **Topic:** Arrays & Hashing · **Difficulty:** Easy · [Problem link](https://leetcode.com/problems/two-sum/)
 
