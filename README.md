@@ -21,6 +21,8 @@ problem-name/
 └── notes.md                    # problem, approach comparison, mistakes, key takeaway
 ```
 
+[PYTHON_REFERENCE.md](PYTHON_REFERENCE.md) lists every Python keyword, built-in and syntax used so far, with examples.
+
 Run any solution file directly to execute its tests:
 
 ```bash
