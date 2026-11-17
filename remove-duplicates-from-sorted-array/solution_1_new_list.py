@@ -7,8 +7,8 @@ Given an integer list `nums` sorted in non-decreasing order, remove the
 duplicates so each unique value appears once, keeping their relative order.
 This version builds and returns a NEW list; `nums` is left unchanged.
 
-Idea: TODO (walk nums and append each value that differs from the last value you appended)
-Time: O(?) | Space: O(?)
+Idea: Walk nums and append each value that isn't already in new_list.
+Time: O(n^2) | Space: O(n)
 """
 
 

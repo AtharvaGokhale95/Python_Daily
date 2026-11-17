@@ -11,6 +11,7 @@ One Python DSA problem a day. For each problem I write a brute-force solution fi
 | 1 | 2026-11-14 | [Two Sum](https://leetcode.com/problems/two-sum/): brute force | Arrays & Hashing | Easy | 1 | [two-sum](two-sum/) |
 | 2 | 2026-11-15 | [Two Sum](https://leetcode.com/problems/two-sum/): one-pass hash map | Arrays & Hashing | Easy | 1 | [two-sum](two-sum/) |
 | 3 | 2026-11-16 | [Palindrome Number](https://leetcode.com/problems/palindrome-number/): string reversal, two pointers, reverse half | Math | Easy | 3 | [palindrome-number](palindrome-number/) |
+| 4 | 2026-11-17 | [Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/): new list | Two Pointers | Easy | 1 | [remove-duplicates-from-sorted-array](remove-duplicates-from-sorted-array/) |
 
 ## How each folder is organized
 
@@ -33,3 +34,4 @@ python two-sum/solution_1_brute_force.py
 
 - Arrays & Hashing
 - Math
+- Two Pointers

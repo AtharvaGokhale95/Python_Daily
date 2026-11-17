@@ -81,6 +81,7 @@ Gotcha: `//` rounds **down**, not toward zero, so with negatives `-7 // 2 == -4`
 ```
 
 **`key in dict`**: checks keys, in O(1) time on average, which is why a dict turns an O(n²) search into O(n).
+Gotcha: `x in list` is **O(n)**, because it scans the list. Inside a loop that makes the whole thing O(n²); use a `set` or `dict` when you only need membership. Use `not in` for the opposite check.
 ```python
 seen = {}            # {} is an empty dict; an empty set is set()
 seen[num] = i        # add or overwrite
