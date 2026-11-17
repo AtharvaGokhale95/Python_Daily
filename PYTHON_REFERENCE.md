@@ -74,6 +74,9 @@ Gotcha: `//` rounds **down**, not toward zero, so with negatives `-7 // 2 == -4`
 
 ## Sequences and dicts
 
+**Lists are passed by reference**: a function gets the same list object, so `nums[i] = x` inside it changes the caller's list. That's how "in place" works. Reassigning the name (`nums = [...]`) does not affect the caller.
+Copy first if you need the original: `list(nums)`, `nums[:]` or `nums.copy()` (all shallow copies).
+
 **Slicing `seq[start:stop:step]`**: `stop` is excluded. `[::-1]` returns a reversed copy.
 ```python
 "12345"[1:3]   # '23'
