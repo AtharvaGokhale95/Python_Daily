@@ -7,9 +7,9 @@ Given an integer `x`, return True if `x` is a palindrome, and False
 otherwise. A palindrome reads the same forwards and backwards
 (121 is a palindrome; -121 and 10 are not).
 
-Idea: TODO (without converting to a string: reverse the last half of the
+Idea: Without converting to a string: reverse the last half of the
 digits with % and // and compare it with the first half)
-Time: O(?) | Space: O(?)
+Time: O(d) | Space: O(1), where d = number of digits (about log10(x))
 """
 
 
@@ -28,19 +28,11 @@ class Solution:
         """
         self._validate(x)
         
-        x_str = str(x)
+        # // : floor division (divide, then round down)
+        # % : modulo (the remainder)
         
-        if len(x_str) == 1:
-            return True
         
-        head = 0
-        tail = len(x_str) - 1
-        while head < tail:
-            if x_str[head] != x_str[tail]:
-                return False
-            head += 1
-            tail -= 1
-        return True
+        
             
 
     @staticmethod

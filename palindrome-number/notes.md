@@ -12,7 +12,7 @@ Given an integer `x`, return `True` if `x` is a palindrome, and `False` otherwis
 | # | Approach | Time | Space |
 |---|----------|------|-------|
 | 1 | String reversal (Day 3) | O(d) | O(d) |
-| 2 | Two pointers | | |
+| 2 | Two pointers (Day 3) | O(d) | O(d) |
 | 3 | Reverse half the number | | |
 
 ### 1. String reversal
@@ -96,15 +96,47 @@ Negative numbers need no special case: `str(-121)` is `"-121"`, its reverse is `
 | `None` | `TypeError` | Missing value |
 
 ### 2. Two pointers
-_Idea:_
+_Idea:_ Convert `x` to a string, then put one pointer at each end (`head` at index 0, `tail` at the last index). While they haven't met, compare the two characters: if they differ it's not a palindrome; otherwise move both pointers one step toward the middle. Still O(d) time and O(d) space for the string, but it stops at the first mismatch and doesn't build a reversed copy.
+
+The loop runs at most d/2 times. For an odd number of digits the middle character is never compared, which is fine: it always matches itself.
+
+#### Code walkthrough: Approach 2
+
+Class structure, `_validate`, `str()`, the docstring and the test harness are the same as in Approach 1 (see that walkthrough). New in this approach:
+
+**Structure and syntax**
+
+| Element | Where | What it does |
+|---|---|---|
+| `if len(x_str) == 1: return True` | before the loop | Early return for single characters. Not needed: with one character `head == tail`, so the loop never runs and the function already returns `True`. |
+| `head = 0`, `tail = len(x_str) - 1` | pointer setup | Indices of the first and last characters. `len(...) - 1` because indexing is 0-based. |
+| `while head < tail:` | loop | Repeats as long as the condition is true. Stops when the pointers meet (odd length) or cross (even length). |
+| `x_str[head] != x_str[tail]` | `if` | `!=` is "not equal". One mismatch is enough to answer `False`. |
+| `return False` inside the loop | early exit | Leaves the method immediately at the first mismatch. |
+| `head += 1`, `tail -= 1` | end of loop body | Augmented assignment: shorthand for `head = head + 1` and `tail = tail - 1`. Moves both pointers inward. |
+| `return True` after the loop | end | Reached only if every compared pair matched. |
+
+**Trace for `x = 1221`** (`x_str = "1221"`)
+
+| Step | `head` | `tail` | `x_str[head]` | `x_str[tail]` | Result |
+|---|---|---|---|---|---|
+| 1 | 0 | 3 | `'1'` | `'1'` | match, move in |
+| 2 | 1 | 2 | `'2'` | `'2'` | match, move in |
+| 3 | 2 | 1 | | | `head < tail` is false, loop ends, return `True` |
+
+**Test cases:** the same 10 cases and 3 bad inputs as Approach 1. All pass.
+
 
 ### 3. Reverse half the number
 _Idea:_
 
 ## Mistakes / edge cases
+- Approach 2: the `len(x_str) == 1` check is redundant, because the `while` condition already handles one-character strings. Harmless, but it can be removed.
 - Approach 1, first draft: the `if x_str == x_str_rev: return True` branch was followed by the starter file's `raise NotImplementedError`, so every non-palindrome raised instead of returning `False`. `-121` crashed the script. Fixed by returning the comparison directly: `return x_str == x_str_rev`.
 - `bool` is a subclass of `int`, so `isPalindrome(True)` passes `_validate` and returns `False` (`"True"` isn't a palindrome). To reject it: `if isinstance(x, bool) or not isinstance(x, int):`.
 - Python ints have no fixed size, so there is no overflow risk with large inputs. In languages with 32-bit ints, reversing the whole number can overflow, which is one reason Approach 3 reverses only half.
 
 ## Key takeaway
+Two pointers moving inward from both ends is the standard pattern for any "reads the same both ways" check. It stops at the first mismatch and avoids building a reversed copy.
+
 `[::-1]` reverses any string, so "is it a palindrome?" becomes one comparison. The cost is O(d) extra space for the two strings.

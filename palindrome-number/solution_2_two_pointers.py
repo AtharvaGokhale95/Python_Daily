@@ -7,9 +7,9 @@ Given an integer `x`, return True if `x` is a palindrome, and False
 otherwise. A palindrome reads the same forwards and backwards
 (121 is a palindrome; -121 and 10 are not).
 
-Idea: TODO (convert x to a string; with a while loop, move a left pointer
-forward and a right pointer backward, comparing characters until they meet)
-Time: O(?) | Space: O(?)
+Idea: Convert x to a string; with a while loop, move a left pointer
+forward and a right pointer backward, comparing characters until they meet
+Time: O(d) | Space: O(d), where d = number of digits (about log10(x))
 """
 
 
