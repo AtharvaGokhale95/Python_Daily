@@ -65,6 +65,13 @@ isinstance(nums, list) and len(nums) > 10   # len() only runs on a list
 return s == s[::-1]
 ```
 
+**Floor division `//` and modulo `%`**: `n % 10` is the last digit and `n // 10` drops it, so you can take a number apart digit by digit without a string. Build a reversed number with `rev = rev * 10 + digit`.
+Gotcha: `//` rounds **down**, not toward zero, so with negatives `-7 // 2 == -4` and `-7 % 10 == 3`. Handle negatives first. `divmod(n, 10)` returns both at once: `(n // 10, n % 10)`.
+```python
+1234 % 10    # 4
+1234 // 10   # 123
+```
+
 ## Sequences and dicts
 
 **Slicing `seq[start:stop:step]`**: `stop` is excluded. `[::-1]` returns a reversed copy.

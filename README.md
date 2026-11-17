@@ -10,7 +10,7 @@ One Python DSA problem a day. For each problem I write a brute-force solution fi
 |----:|------|---------|-------|------------|-----------:|--------|
 | 1 | 2026-11-14 | [Two Sum](https://leetcode.com/problems/two-sum/): brute force | Arrays & Hashing | Easy | 1 | [two-sum](two-sum/) |
 | 2 | 2026-11-15 | [Two Sum](https://leetcode.com/problems/two-sum/): one-pass hash map | Arrays & Hashing | Easy | 1 | [two-sum](two-sum/) |
-| 3 | 2026-11-16 | [Palindrome Number](https://leetcode.com/problems/palindrome-number/): string reversal, two pointers | Math | Easy | 2 | [palindrome-number](palindrome-number/) |
+| 3 | 2026-11-16 | [Palindrome Number](https://leetcode.com/problems/palindrome-number/): string reversal, two pointers, reverse half | Math | Easy | 3 | [palindrome-number](palindrome-number/) |
 
 ## How each folder is organized
 

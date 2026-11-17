@@ -13,7 +13,7 @@ Given an integer `x`, return `True` if `x` is a palindrome, and `False` otherwis
 |---|----------|------|-------|
 | 1 | String reversal (Day 3) | O(d) | O(d) |
 | 2 | Two pointers (Day 3) | O(d) | O(d) |
-| 3 | Reverse half the number | | |
+| 3 | Reverse half the number (Day 3) | O(d) | O(1) |
 
 ### 1. String reversal
 _Idea:_ Turn `x` into a string with `str(x)`, reverse it with the slice `[::-1]`, and compare the two. Building the string and its reversed copy takes O(d) time and O(d) extra space.
@@ -128,15 +128,66 @@ Class structure, `_validate`, `str()`, the docstring and the test harness are th
 
 
 ### 3. Reverse half the number
-_Idea:_
+_Idea:_ No string at all. Peel digits off the end of `x` with `% 10` and build them into a new number `reverse` with `reverse * 10 + digit`. Stop once `reverse` has caught up with what's left of `x`: at that point you've reversed half the digits. A palindrome's two halves then match. O(d) time (actually about d/2 steps) and **O(1) space**, because only two integers are stored. This answers LeetCode's follow-up: "Could you solve it without converting the integer to a string?"
+
+**Why the early exits are needed:**
+- Negative numbers are never palindromes (`-121` vs `121-`).
+- A number ending in `0` (other than `0` itself) would need to start with `0`, which no number does. Without this check, `10` would loop to `x = 1`, `reverse = 0`... then `x = 0`, `reverse = 1`, and `x == reverse // 10` would wrongly return `True`.
+
+**Why `reverse // 10` for odd lengths:** with an odd number of digits, `reverse` ends up holding the middle digit too (`12321` stops at `x = 12`, `reverse = 123`). The middle digit matches itself, so `reverse // 10` drops it before comparing.
+
+#### Code walkthrough: Approach 3
+
+Class structure, `_validate`, the docstring and the test harness are the same as in Approach 1 (see that walkthrough). New in this approach:
+
+**Structure and syntax**
+
+| Element | Where | What it does |
+|---|---|---|
+| `x % 10` | early exit and loop | `%` is modulo, the remainder after dividing. `% 10` gives the last digit: `1234 % 10 == 4`. |
+| `x // 10` | loop | `//` is floor division: divide, then round down. `// 10` drops the last digit: `1234 // 10 == 123`. |
+| `(x < 0) or (x % 10 == 0 and x != 0)` | early exit | Combines conditions. `and` binds tighter than `or`; the parentheses make that explicit. |
+| `x != 0` | early exit | Keeps `0` itself, which ends in 0 but is a palindrome. |
+| `reverse = 0` | before loop | Starts the reversed half as an empty number. |
+| `while x > reverse:` | loop | Runs until `reverse` has at least as many digits as what's left of `x`, which is the halfway point. |
+| `last_digit = x % 10` | loop body | Takes the last digit of what's left of `x`. |
+| `reverse = reverse * 10 + last_digit` | loop body | Shifts `reverse` left one decimal place and appends the digit: `12 * 10 + 3 == 123`. |
+| `x = x // 10` | loop body | Removes that digit from `x`. |
+| `return x == reverse or x == reverse // 10` | end | `True` if the halves match for an even length, or match after dropping the middle digit for an odd length. Returns the `or` of two comparisons directly. |
+
+**Trace for `x = 12321`**
+
+| Step | `last_digit` | `reverse` | `x` | `x > reverse`? |
+|---|---|---|---|---|
+| start | | 0 | 12321 | yes |
+| 1 | 1 | 1 | 1232 | yes |
+| 2 | 2 | 12 | 123 | yes |
+| 3 | 3 | 123 | 12 | no, stop |
+| return | | `123 // 10 == 12` | 12 | `x == reverse // 10` → `True` |
+
+**Trace for `x = 1221`**
+
+| Step | `last_digit` | `reverse` | `x` | `x > reverse`? |
+|---|---|---|---|---|
+| start | | 0 | 1221 | yes |
+| 1 | 1 | 1 | 122 | yes |
+| 2 | 2 | 12 | 12 | no, stop |
+| return | | 12 | 12 | `x == reverse` → `True` |
+
+**Test cases:** the same 10 cases and 3 bad inputs as Approach 1. All pass. Also checked against the string method for every number from 0 to 199,999 with no mismatches.
+
 
 ## Mistakes / edge cases
+- Approach 3: the trailing-zero check is essential, not just a shortcut. Without it, `10` returns `True` (see the idea above).
+- Approach 3 header says `rev` in one comment but the variable is `reverse`. Minor.
 - Approach 2: the `len(x_str) == 1` check is redundant, because the `while` condition already handles one-character strings. Harmless, but it can be removed.
 - Approach 1, first draft: the `if x_str == x_str_rev: return True` branch was followed by the starter file's `raise NotImplementedError`, so every non-palindrome raised instead of returning `False`. `-121` crashed the script. Fixed by returning the comparison directly: `return x_str == x_str_rev`.
 - `bool` is a subclass of `int`, so `isPalindrome(True)` passes `_validate` and returns `False` (`"True"` isn't a palindrome). To reject it: `if isinstance(x, bool) or not isinstance(x, int):`.
 - Python ints have no fixed size, so there is no overflow risk with large inputs. In languages with 32-bit ints, reversing the whole number can overflow, which is one reason Approach 3 reverses only half.
 
 ## Key takeaway
+`% 10` and `// 10` let you take a number apart digit by digit without a string. Reversing only half avoids extra work and, in languages with fixed-size ints, avoids overflow.
+
 Two pointers moving inward from both ends is the standard pattern for any "reads the same both ways" check. It stops at the first mismatch and avoids building a reversed copy.
 
 `[::-1]` reverses any string, so "is it a palindrome?" becomes one comparison. The cost is O(d) extra space for the two strings.
