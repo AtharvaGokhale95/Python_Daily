@@ -45,7 +45,7 @@ if __name__ == "__main__":
     # (x, expected)
     cases = [
         (121, True),          # basic palindrome
-        (-121, True),        # negative: "-121" reversed is "121-"
+        (-121, False),         # negative: "-121" reversed is "121-" -- checks for assertion error
         (10, False),          # trailing zero: "10" reversed is "01"
         (0, True),            # single digit zero
         (7, True),            # single digit
