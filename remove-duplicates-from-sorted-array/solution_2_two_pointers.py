@@ -8,8 +8,9 @@ duplicates so each unique value appears once, keeping their relative order.
 Do it in place with O(1) extra space and return k, the number of unique
 values; the first k slots of `nums` must hold them.
 
-Idea: TODO (a write pointer k marks where the next unique value goes; a read pointer scans ahead and copies each new value to nums[k])
-Time: O(?) | Space: O(?)
+Idea: A write pointer marks where the next unique value goes; a read pointer
+scans from index 1 and copies each value that differs from the one before it.
+Time: O(n) | Space: O(1)
 """
 
 
@@ -28,8 +29,17 @@ class Solution:
             original order; whatever is after index k doesn't matter.
         """
         self._validate(nums)
-        # TODO: write your solution here
-        raise NotImplementedError
+        
+        if len(nums) == 0:
+            return 0
+        
+        # if the list is the not empty, there will be at least 1 unique element at idx = 0; so we will start writing the next unique element from idx = 1 and also read the nums from idx = 1
+        write_idx = 1
+        for read_idx in range(1, len(nums)):
+            if nums[read_idx] != nums[read_idx -1]:     # check only if the current value is not equal to the previous one
+                nums[write_idx] = nums[read_idx]
+                write_idx += 1
+        return write_idx                                # when we update the nums in-place, the len(nums) still remains the same; only the first write_idx values are unique
 
     @staticmethod
     def _validate(nums: list[int]) -> None:
@@ -44,20 +54,19 @@ if __name__ == "__main__":
 
     # (nums, expected first k values)
     cases = [
-        ([1, 1, 2], [1, 2]),                          # basic
+        ([1, 1, 2], [1, 2]),                                # basic
         ([0, 0, 1, 1, 1, 2, 2, 3, 3, 4], [0, 1, 2, 3, 4]),  # LeetCode example 2
-        ([], []),                                     # empty list
-        ([5], [5]),                                   # single element
-        ([1, 2, 3], [1, 2, 3]),                       # no duplicates
-        ([2, 2, 2, 2], [2]),                          # all the same
-        ([-3, -3, -1, 0, 0], [-3, -1, 0]),            # negatives and zero
-        ([1, 1, 2, 3, 3], [1, 2, 3]),                 # duplicates at both ends
+        ([], []),                                           # empty list
+        ([5], [5]),                                         # single element
+        ([1, 2, 3], [1, 2, 3]),                             # no duplicates
+        ([2, 2, 2, 2], [2]),                                # all the same
+        ([-3, -3, -1, 0, 0], [-3, -1, 0]),                  # negatives and zero
+        ([1, 1, 2, 3, 3], [1, 2, 3]),                       # duplicates at both ends
     ]
     for nums, expected in cases:
         before = list(nums)                 # keep a copy to show in the output
         k = s.removeDuplicates(nums)        # changes nums in place
-        assert k == len(expected) and nums[:k] == expected, \
-            f"{before!r}: got k={k}, nums[:k]={nums[:k]}, expected {expected}"
+        assert k == len(expected) and nums[:k] == expected, f"{before!r}: got k={k}, nums[:k]={nums[:k]}, expected {expected}"
         print(f"PASS nums = {before!r} -> k = {k}, nums[:k] = {nums[:k]}")
 
     # (nums, expected exception)
