@@ -26,8 +26,15 @@ class Solution:
             A new list of the unique values, in order. nums is not changed.
         """
         self._validate(nums)
-        # TODO: write your solution here
-        raise NotImplementedError
+        
+        new_list = []
+        for i in range(len(nums)):
+            if nums[i] in new_list:
+                pass
+            else:
+                new_list.append(nums[i])
+        return new_list
+        
 
     @staticmethod
     def _validate(nums: list[int]) -> None:
@@ -42,21 +49,21 @@ if __name__ == "__main__":
 
     # (nums, expected)
     cases = [
-        ([1, 1, 2], [1, 2]),                          # basic
+        ([1, 1, 2], [1, 2]),                                # basic
         ([0, 0, 1, 1, 1, 2, 2, 3, 3, 4], [0, 1, 2, 3, 4]),  # LeetCode example 2
-        ([], []),                                     # empty list
-        ([5], [5]),                                   # single element
-        ([1, 2, 3], [1, 2, 3]),                       # no duplicates
-        ([2, 2, 2, 2], [2]),                          # all the same
-        ([-3, -3, -1, 0, 0], [-3, -1, 0]),            # negatives and zero
-        ([1, 1, 2, 3, 3], [1, 2, 3]),                 # duplicates at both ends
-        (list(range(100_000)), list(range(100_000))),      # large input, no duplicates
+        ([], []),                                           # empty list
+        ([5], [5]),                                         # single element
+        ([1, 2, 3], [1, 2, 3]),                             # no duplicates
+        ([2, 2, 2, 2], [2]),                                # all the same
+        ([-3, -3, -1, 0, 0], [-3, -1, 0]),                  # negatives and zero
+        ([1, 1, 2, 3, 3], [1, 2, 3]),                       # duplicates at both ends
+        (list(range(100_000)), list(range(100_000))),       # large input, no duplicates
     ]
     for nums, expected in cases:
         before = list(nums)
         result = s.removeDuplicates(nums)
         assert result == expected, f"{before!r}: got {result}, expected {expected}"
-        assert nums == before, f"nums was changed: {nums!r}"   # not in place: input must be untouched
+        assert nums == before, f"nums was changed: {nums!r}"                                # not in place: input must be untouched
         print(f"PASS nums = {before!r} -> {result}" if len(before) <= 10 else f"PASS nums = <list of {len(before):,} ints> -> {len(result):,} unique")
 
     # (nums, expected exception)
