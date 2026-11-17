@@ -1,5 +1,5 @@
 """
-Palindrome Number | Approach 2: Optimized (reverse half the number)
+Palindrome Number | Approach 2: Two pointers
 Topic: Math | Difficulty: Easy
 https://leetcode.com/problems/palindrome-number/
 
@@ -7,7 +7,8 @@ Given an integer `x`, return True if `x` is a palindrome, and False
 otherwise. A palindrome reads the same forwards and backwards
 (121 is a palindrome; -121 and 10 are not).
 
-Idea: TODO (without converting to a string: reverse the last half of the digits with % and // and compare it with the first half)
+Idea: TODO (convert x to a string; with a while loop, move a left pointer
+forward and a right pointer backward, comparing characters until they meet)
 Time: O(?) | Space: O(?)
 """
 
@@ -26,8 +27,21 @@ class Solution:
             True if x is a palindrome, otherwise False.
         """
         self._validate(x)
-        # TODO: write your solution here
-        raise NotImplementedError
+        
+        x_str = str(x)
+        
+        if len(x_str) == 1:
+            return True
+        
+        head = 0
+        tail = len(x_str) - 1
+        while head < tail:
+            if x_str[head] != x_str[tail]:
+                return False
+            head += 1
+            tail -= 1
+        return True
+            
 
     @staticmethod
     def _validate(x: int) -> None:

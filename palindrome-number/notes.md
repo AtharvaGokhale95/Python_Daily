@@ -12,7 +12,8 @@ Given an integer `x`, return `True` if `x` is a palindrome, and `False` otherwis
 | # | Approach | Time | Space |
 |---|----------|------|-------|
 | 1 | String reversal (Day 3) | O(d) | O(d) |
-| 2 | Optimized (reverse half the number) | | |
+| 2 | Two pointers | | |
+| 3 | Reverse half the number | | |
 
 ### 1. String reversal
 _Idea:_ Turn `x` into a string with `str(x)`, reverse it with the slice `[::-1]`, and compare the two. Building the string and its reversed copy takes O(d) time and O(d) extra space.
@@ -94,13 +95,16 @@ Negative numbers need no special case: `str(-121)` is `"-121"`, its reverse is `
 | `12.1` | `TypeError` | Float, not int |
 | `None` | `TypeError` | Missing value |
 
-### 2. Optimized (reverse half the number)
+### 2. Two pointers
+_Idea:_
+
+### 3. Reverse half the number
 _Idea:_
 
 ## Mistakes / edge cases
 - Approach 1, first draft: the `if x_str == x_str_rev: return True` branch was followed by the starter file's `raise NotImplementedError`, so every non-palindrome raised instead of returning `False`. `-121` crashed the script. Fixed by returning the comparison directly: `return x_str == x_str_rev`.
 - `bool` is a subclass of `int`, so `isPalindrome(True)` passes `_validate` and returns `False` (`"True"` isn't a palindrome). To reject it: `if isinstance(x, bool) or not isinstance(x, int):`.
-- Python ints have no fixed size, so there is no overflow risk with large inputs. In languages with 32-bit ints, reversing the whole number can overflow, which is one reason the optimized approach reverses only half.
+- Python ints have no fixed size, so there is no overflow risk with large inputs. In languages with 32-bit ints, reversing the whole number can overflow, which is one reason Approach 3 reverses only half.
 
 ## Key takeaway
 `[::-1]` reverses any string, so "is it a palindrome?" becomes one comparison. The cost is O(d) extra space for the two strings.
