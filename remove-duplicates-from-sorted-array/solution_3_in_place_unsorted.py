@@ -39,6 +39,19 @@ class Solution:
                 nums[write_idx] = num           # num will be updated at write_idx in nums
                 write_idx += 1                  # write_idx is incremented
         return len(nums[: write_idx])
+        
+        # The following solution has a better memory complexity but does not retain the order
+        # if len(nums) == 0:
+        #     return 0
+        
+        # nums.sort()         # we first sort the array
+        
+        # write_idx = 1
+        # for read_idx in range(1, len(nums)):
+        #     if nums[read_idx] != nums[read_idx - 1]:
+        #         nums[write_idx] = nums[read_idx]
+        #         write_idx += 1
+        # return write_idx
 
     @staticmethod
     def _validate(nums: list[int]) -> None:
