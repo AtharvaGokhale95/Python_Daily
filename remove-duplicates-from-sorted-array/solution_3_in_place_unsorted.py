@@ -8,8 +8,9 @@ duplicates so each unique value appears once, keeping their relative order.
 Extension: the input is NOT necessarily sorted. Remove duplicates in place,
 keep the first occurrence of each value in its original order, and return k.
 
-Idea: TODO (keep a set of values already seen; copy each value not yet seen to nums[k])
-Time: O(?) | Space: O(?)
+Idea: Keep a set of values already seen. Walk nums; copy each value not yet
+seen to nums[write_idx] and move write_idx forward.
+Time: O(n) | Space: O(n) for the set
 """
 
 
@@ -28,8 +29,16 @@ class Solution:
             original order; whatever is after index k doesn't matter.
         """
         self._validate(nums)
-        # TODO: write your solution here
-        raise NotImplementedError
+        
+        seen = set()                            # create an empty set
+        
+        write_idx = 0                           # idx to write in-place in nums
+        for num in nums:
+            if num not in seen:                 # only if num is not in seen:
+                seen.add(num)                   # num will be added to seen
+                nums[write_idx] = num           # num will be updated at write_idx in nums
+                write_idx += 1                  # write_idx is incremented
+        return len(nums[: write_idx])
 
     @staticmethod
     def _validate(nums: list[int]) -> None:
@@ -59,9 +68,8 @@ if __name__ == "__main__":
     for nums, expected in cases:
         before = list(nums)                 # keep a copy to show in the output
         k = s.removeDuplicates(nums)        # changes nums in place
-        assert k == len(expected) and nums[:k] == expected, \
-            f"{before!r}: got k={k}, nums[:k]={nums[:k]}, expected {expected}"
-        print(f"PASS nums = {before!r} -> k = {k}, nums[:k] = {nums[:k]}")
+        assert k == len(expected) and nums[:k] == expected, f"{before!r}: got k={k}, nums[:k]={nums[:k]}, expected {expected}"
+        print(f"PASS nums = {before!r} -> No of unique values = {k}, nums[:k] = {nums[:k]}")
 
     # (nums, expected exception)
     bad_inputs = [
