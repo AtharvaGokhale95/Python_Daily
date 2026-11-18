@@ -13,7 +13,7 @@ Example: `[0, 0, 1, 1, 1, 2, 2, 3, 3, 4]` → `k = 5`, `nums[:5] = [0, 1, 2, 3, 
 |---|----------|------|-------|
 | 1 | New list (not in place) (Day 4) | O(n²) | O(n) |
 | 2 | Two pointers (in place, sorted) (Day 4) | O(n) | O(1) |
-| 3 | In place, unsorted input | | |
+| 3 | In place, unsorted input (Day 5) | O(n) | O(n) |
 
 ### 1. New list (not in place)
 _Idea:_ Start with an empty `new_list`. Walk `nums`, and append each value that isn't already in `new_list`. `nums` itself is never changed, and the method returns the new list.
@@ -118,13 +118,58 @@ _Idea:_ Two indices move through the same list. `read_idx` visits every position
 
 
 ### 3. In place, unsorted input
-_Idea:_
+_Idea:_ Without sorting, "different from the previous value" no longer means "new", so remember every value seen so far in a **set**. Walk `nums`; the first time a value appears, add it to `seen`, copy it to `nums[write_idx]` and move `write_idx` forward. Later copies are skipped. The first occurrence of each value stays in its original order. O(n) time, because `in` and `.add()` on a set are O(1) on average; O(n) extra space for the set. A 1,000,000-item list takes about 0.2 s.
+
+**Trade-off vs Approach 2:** works on any order, but needs O(n) extra space. On sorted input, Approach 2 does it in O(1) space.
+
+**Why writing into `nums` while looping over it is safe here:** `write_idx` never passes the loop's current position, so it only overwrites slots the loop has already read.
+
+#### Code walkthrough: Approach 3
+
+`_validate`, the docstring and the bad-input tests are the same as in Approach 1; the write pointer works like Approach 2. New in this approach:
+
+**Structure and syntax**
+
+| Element | Where | What it does |
+|---|---|---|
+| `seen = set()` | before the loop | Creates an empty set: an unordered collection of unique values with O(1) average `in` and `.add()`. `{}` would make an empty **dict**, not a set. |
+| `write_idx = 0` | before the loop | Starts at 0: no special case for the first element or an empty list. |
+| `for num in nums:` | loop | Iterates over values directly; no index needed for reading. |
+| `num not in seen` | `if` | Membership test on a set: O(1) on average, unlike `in` on a list (Approach 1). |
+| `seen.add(num)` | loop body | Records the value so later copies are skipped. |
+| `nums[write_idx] = num` | loop body | Writes in place (the caller's list changes). |
+| `return len(nums[: write_idx])` | end | Equals `write_idx`, but the slice builds a temporary copy first. `return write_idx` is simpler and O(1). |
+
+**Trace for `nums = [3, 1, 3, 2, 1]`**
+
+| `num` | In `seen`? | `seen` after | `write_idx` after | `nums` after |
+|---|---|---|---|---|
+| 3 | no | `{3}` | 1 | `[3, 1, 3, 2, 1]` |
+| 1 | no | `{3, 1}` | 2 | `[3, 1, 3, 2, 1]` |
+| 3 | yes | `{3, 1}` | 2 | `[3, 1, 3, 2, 1]` |
+| 2 | no | `{3, 1, 2}` | 3 | `[3, 1, 2, 2, 1]` |
+| 1 | yes | `{3, 1, 2}` | 3 | `[3, 1, 2, 2, 1]` |
+| return | | | **k = 3** | `nums[:3] == [3, 1, 2]` |
+
+**Test cases:** the 8 sorted cases from Approach 1, plus 3 unsorted ones:
+
+| Input `nums` | Expected `nums[:k]` | What it checks |
+|---|---|---|
+| `[3, 1, 3, 2, 1]` | `[3, 1, 2]` | Unsorted |
+| `[4, 4, 1, 4, 1]` | `[4, 1]` | Unsorted, repeats far apart |
+| `[0, -1, 0, -1, 2]` | `[0, -1, 2]` | Unsorted with negatives |
+
+All 14 tests pass. Also checked against `list(dict.fromkeys(nums))` on 20,000 random unsorted lists with no mismatches.
+
 
 ## Mistakes / edge cases
+- Approach 3: `return len(nums[: write_idx])` copies part of the list just to measure it; `return write_idx` gives the same number in O(1).
 - Approach 2: the empty-list check is required: without it, `write_idx = 1` would return 1 for `[]`.
 - Approach 1: `x in list` is O(n), which makes the whole method O(n²). Because the input is sorted, comparing with `new_list[-1]` is enough and makes it O(n).
 - Approach 1: `if ...: pass` / `else: ...` can be written as one `if nums[i] not in new_list:`.
 
 ## Key takeaway
+When order isn't sorted, a `set` of seen values replaces the "compare with the previous value" trick, trading O(1) space for O(n).
+
 In-place on a sorted list = a slow write pointer and a fast read pointer. The write pointer never passes the read pointer, so you never overwrite something you still need.
 

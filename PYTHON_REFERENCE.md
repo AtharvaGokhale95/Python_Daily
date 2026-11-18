@@ -83,6 +83,9 @@ Copy first if you need the original: `list(nums)`, `nums[:]` or `nums.copy()` (a
 "12345"[::-1]  # '54321'
 ```
 
+**`set()`**: unordered unique values with O(1) average `in`, `.add(x)` and `.discard(x)`. `{}` is an empty dict, so an empty set must be `set()`.
+Order-preserving dedupe in one line: `list(dict.fromkeys(nums))` (dicts keep insertion order).
+
 **`key in dict`**: checks keys, in O(1) time on average, which is why a dict turns an O(n²) search into O(n).
 Gotcha: `x in list` is **O(n)**, because it scans the list. Inside a loop that makes the whole thing O(n²); use a `set` or `dict` when you only need membership. Use `not in` for the opposite check.
 ```python
