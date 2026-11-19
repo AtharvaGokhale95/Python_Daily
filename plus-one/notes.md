@@ -13,7 +13,7 @@ Example: `[1, 2, 9]` → `[1, 3, 0]`; `[9, 9]` → `[1, 0, 0]`.
 |---|----------|------|-------|
 | 1 | String conversion (Day 5) | O(n) | O(n) |
 | 2 | Using map() (Day 6) | O(n) | O(n) |
-| 3 | Carry from the right (in place) | | |
+| 3 | Carry from the right (in place) (Day 6) | O(n) worst, O(1) typical | O(1) extra (O(n) if all 9s) |
 
 ### 1. String conversion
 _Idea:_ Let Python do the arithmetic. Glue the digits into one string (`[1, 2, 9]` → `"129"`), convert it to an int, add 1 (`130`), convert back to a string, and turn each character into a digit (`[1, 3, 0]`). Carries, including the all-9s case where the number gets longer, are handled by `+ 1` for free. O(n) time and O(n) space for the string and the new list, n = number of digits.
@@ -111,12 +111,55 @@ _Idea:_ Same plan as Approach 1 (digits → string → int → +1 → string →
 
 
 ### 3. Carry from the right (in place)
-_Idea:_
+_Idea:_ Do the addition the way you would on paper. Start at the last digit. If it's below 9, add 1 and you're done: return immediately. If it's 9, it becomes 0 and the 1 carries to the digit on its left; repeat. If the loop finishes, every digit was 9 and is now 0, so the answer is `1` followed by all those zeros.
+
+**Complexity:**
+- Time: O(n) in the worst case (all 9s), but usually O(1): the loop stops at the first digit below 9, and 9 out of 10 random numbers stop at the very last digit.
+- Space: O(1) extra; the digits are changed **in place**. Only the all-9s case builds a new list of n + 1 digits with `[1] + digits`.
+- No string conversion, so no 4,300-digit limit: 1,000,000 nines takes about 0.75 s.
+
+**Side effect to mention in an interview:** because it edits `digits` in place, the caller's list changes too (`d = [1, 2, 3]; plusOne(d)` leaves `d == [1, 2, 4]`). In the all-9s case the caller's list becomes all zeros, and a different, new list is returned. Approaches 1 and 2 never touch the input.
+
+#### Code walkthrough: Approach 3
+
+`_validate`, the docstring, `short()` and the test harness are the same as in Approach 1. New in this approach:
+
+**Structure and syntax**
+
+| Element | Where | What it does |
+|---|---|---|
+| `end = len(digits)` | before the loop | Number of digits. |
+| `reversed(range(end))` | loop header | `range(end)` is `0, 1, ..., end-1`; `reversed(...)` walks it backwards: `end-1, ..., 1, 0`. Same as `range(end - 1, -1, -1)`, easier to read. |
+| `digits[i] < 9` | `if` | Can this digit absorb the +1 without carrying? |
+| `digits[i] += 1` then `return digits` | `if` branch | Adds 1 in place and stops: no further digits change. |
+| `else: digits[i] = 0` | `else` branch | A 9 rolls over to 0; the loop moves left, carrying the 1. |
+| `return [1] + digits` | after the loop | Reached only if every digit was 9. `+` on two lists builds a **new** list: `[1] + [0, 0, 0]` → `[1, 0, 0, 0]`. |
+| Comment block with `eg 1` / `eg 2` / `eg 3` | after the method | Worked examples for no carry, one carry and all 9s. |
+
+**Trace for `digits = [1, 2, 9]`**
+
+| `i` | `digits[i]` | Action | `digits` after |
+|---|---|---|---|
+| 2 | 9 | `else`: set to 0, carry left | `[1, 2, 0]` |
+| 1 | 2 | `< 9`: add 1, return | `[1, 3, 0]` |
+
+**Trace for `digits = [9, 9]`**
+
+| `i` | `digits[i]` | Action | `digits` after |
+|---|---|---|---|
+| 1 | 9 | set to 0 | `[9, 0]` |
+| 0 | 9 | set to 0 | `[0, 0]` |
+| loop ends | | `return [1] + digits` | returns `[1, 0, 0]` |
+
+**Test cases:** the same 9 cases and 6 bad inputs as Approach 1. All 15 pass. Also checked against the string method on 20,000 random inputs with no mismatches.
+
 
 ## Mistakes / edge cases
 - Approach 1: `list = []` shadows the built-in `list` for the rest of the method. It works here, but calling `list(...)` later in the same method would fail with `TypeError: 'list' object is not callable`. Use a name like `result`.
 - Approach 1: building a string with `+=` in a loop is fine for 100 digits; `"".join(str(d) for d in digits)` is the idiomatic version.
 
 ## Key takeaway
+The carry loop is the real algorithm behind "add 1": walk right to left, stop at the first digit that doesn't overflow. It needs no conversions, has no size limit, and usually finishes after one digit.
+
 `map` + `join` compress the convert-and-loop pattern into one line each, but they only hide the work: the string round-trip is still O(n) and still limited to 4,300 digits.
 

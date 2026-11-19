@@ -23,6 +23,8 @@ repr("3")   # "'3'"
 str("3")    # '3'
 ```
 
+**`reversed(seq)`**: walks a sequence backwards lazily, without copying it. `reversed(range(n))` gives `n-1, ..., 0` (same as `range(n - 1, -1, -1)`).
+
 **`map(function, iterable)`**: applies the function to every item and returns a **lazy iterator**; wrap it in `list(...)` to get a list. It can only be consumed once.
 ```python
 list(map(int, "130"))          # [1, 3, 0]
@@ -87,6 +89,9 @@ Gotcha: `//` rounds **down**, not toward zero, so with negatives `-7 // 2 == -4`
 
 **Lists are passed by reference**: a function gets the same list object, so `nums[i] = x` inside it changes the caller's list. That's how "in place" works. Reassigning the name (`nums = [...]`) does not affect the caller.
 Copy first if you need the original: `list(nums)`, `nums[:]` or `nums.copy()` (all shallow copies).
+
+**List `+` and `*`**: `[1] + digits` builds a **new** list (O(n)); `[0] * 3` gives `[0, 0, 0]`.
+Gotcha: `[[]] * 3` repeats the **same** inner list three times, so changing one changes all; use `[[] for _ in range(3)]`.
 
 **Slicing `seq[start:stop:step]`**: `stop` is excluded. `[::-1]` returns a reversed copy.
 ```python
