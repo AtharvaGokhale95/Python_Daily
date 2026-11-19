@@ -23,6 +23,12 @@ repr("3")   # "'3'"
 str("3")    # '3'
 ```
 
+**`map(function, iterable)`**: applies the function to every item and returns a **lazy iterator**; wrap it in `list(...)` to get a list. It can only be consumed once.
+```python
+list(map(int, "130"))          # [1, 3, 0]
+"".join(map(str, [1, 2, 9]))   # '129'
+```
+
 **`enumerate(iterable, start=0)`**: index and value together.
 ```python
 for i, num in enumerate(nums): ...

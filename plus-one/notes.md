@@ -12,7 +12,7 @@ Example: `[1, 2, 9]` → `[1, 3, 0]`; `[9, 9]` → `[1, 0, 0]`.
 | # | Approach | Time | Space |
 |---|----------|------|-------|
 | 1 | String conversion (Day 5) | O(n) | O(n) |
-| 2 | Using map() | | |
+| 2 | Using map() (Day 6) | O(n) | O(n) |
 | 3 | Carry from the right (in place) | | |
 
 ### 1. String conversion
@@ -78,7 +78,37 @@ All 15 tests pass. Also checked against a carry-based reference on 20,000 random
 
 
 ### 2. Using map()
-_Idea:_
+_Idea:_ Same plan as Approach 1 (digits → string → int → +1 → string → digits), written in two lines. `map(str, digits)` turns every digit into a one-character string, `"".join(...)` glues them into one string, and `int(...)` parses it. After adding 1, `str(...)` turns the number back into text and `map(int, ...)` turns each character back into a digit; `list(...)` collects them. O(n) time and O(n) space; the same 4,300-digit `int` ↔ `str` limit as Approach 1 applies.
+
+#### Code walkthrough: Approach 2
+
+`_validate`, the docstring, `short()` and the test harness are the same as in Approach 1. New in this approach:
+
+**Structure and syntax**
+
+| Element | Where | What it does |
+|---|---|---|
+| `map(str, digits)` | line 1 | `map(function, iterable)` applies `str` to every digit. It returns a **lazy iterator**: nothing is computed until something consumes it. |
+| `"".join(...)` | line 1 | Consumes the iterator and concatenates the strings with `""` (nothing) between them: `["1", "2", "9"]` → `"129"`. Replaces Approach 1's `+=` loop. |
+| `int("...")` | line 1 | Parses the string into a number. |
+| `str(integer + 1)` | line 2 | Adds 1, then converts back to text: `130` → `"130"`. |
+| `map(int, "130")` | line 2 | A string is iterable one character at a time, so `int` is applied to `"1"`, `"3"`, `"0"`. |
+| `list(map(...))` | line 2 | Consumes the lazy iterator into a real list, which is what the method must return. Without `list(...)` you'd return a `map` object. |
+| Nested calls | both lines | Read inside-out: `int("".join(map(str, digits)))` runs `map` first, then `join`, then `int`. |
+
+**Trace for `digits = [1, 2, 9]`**
+
+| Step | Value |
+|---|---|
+| `map(str, digits)` | `"1"`, `"2"`, `"9"` (lazy) |
+| `"".join(...)` | `"129"` |
+| `int(...)` | `129` |
+| `integer + 1` | `130` |
+| `str(...)` | `"130"` |
+| `list(map(int, ...))` | `[1, 3, 0]` |
+
+**Test cases:** the same 9 cases and 6 bad inputs as Approach 1. All 15 pass. Also checked against a carry-based reference on 20,000 random inputs with no mismatches.
+
 
 ### 3. Carry from the right (in place)
 _Idea:_
@@ -88,3 +118,5 @@ _Idea:_
 - Approach 1: building a string with `+=` in a loop is fine for 100 digits; `"".join(str(d) for d in digits)` is the idiomatic version.
 
 ## Key takeaway
+`map` + `join` compress the convert-and-loop pattern into one line each, but they only hide the work: the string round-trip is still O(n) and still limited to 4,300 digits.
+

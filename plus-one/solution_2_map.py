@@ -7,8 +7,9 @@ You are given a large integer as a list `digits`, most significant digit
 first, with no leading 0s. Add one to the integer and return the resulting
 list of digits.
 
-Idea: TODO (map(str, digits) to build the string, and map(int, str(number)) to split the result back into digits)
-Time: O(?) | Space: O(?)
+Idea: map(str, digits) turns each digit into a string to join into one number;
+after adding 1, map(int, str(number)) splits the result back into digits.
+Time: O(n) | Space: O(n), n = number of digits
 """
 
 
@@ -28,8 +29,11 @@ class Solution:
             The digits of the incremented number, most significant first.
         """
         self._validate(digits)
-        # TODO: write your solution here
-        raise NotImplementedError
+        
+        # map(function, iterable) applies a function to every item and returns a lazy iterator. Wrap it in list()
+        integer = int("".join(map(str, digits)))            # converted the digits into into individual strings - joined them into a single string - typecasted them to int
+        return list(map(int, str(integer + 1)))                   # added 1 to integer - typecasted that int into string - mapped the string into int - stored in the list
+        
 
     @staticmethod
     def _validate(digits: list[int]) -> None:
