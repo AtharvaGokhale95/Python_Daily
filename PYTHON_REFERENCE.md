@@ -60,6 +60,11 @@ label = f"<{len(nums):,} ints>" if len(nums) > 10 else repr(nums)
 isinstance(nums, list) and len(nums) > 10   # len() only runs on a list
 ```
 
+**Chained comparison `a <= x <= b`**: means `a <= x and x <= b`, with `x` evaluated once.
+```python
+all(0 <= d <= 9 for d in digits)
+```
+
 **Return a comparison directly**: a comparison is already `True` or `False`.
 ```python
 return s == s[::-1]
@@ -97,6 +102,12 @@ if target - num in seen: ...
 **Variable type hint:** `seen: dict[int, int] = {}` documents keys → values. It isn't enforced at runtime.
 
 **Digit separator:** `100_000 == 100000`.
+
+**Build strings with `"".join(...)`**: `"".join(map(str, [1, 2, 9]))` gives `'129'`. `s += ...` in a loop works but `join` is the idiomatic, guaranteed-linear way.
+
+**`int` ↔ `str` limit**: Python refuses to convert ints with more than 4,300 digits to or from a string (`ValueError: Exceeds the limit (4300)...`). `sys.set_int_max_str_digits(0)` removes the limit. Arithmetic itself has no size limit.
+
+**Don't shadow built-ins**: `list = []`, `str = ...`, `sum = 0` hide the real `list()`, `str()`, `sum()` in that scope; a later `list(x)` then fails with `'list' object is not callable`.
 
 ## Errors and testing
 

@@ -7,8 +7,9 @@ You are given a large integer as a list `digits`, most significant digit
 first, with no leading 0s. Add one to the integer and return the resulting
 list of digits.
 
-Idea: TODO (join the digits into a string, turn it into an int, add 1, then turn the result back into a list of digits)
-Time: O(?) | Space: O(?)
+Idea: Join the digits into a string, turn it into an int, add 1, then turn the
+result back into a list of digits.
+Time: O(n) | Space: O(n), n = number of digits
 """
 
 
@@ -28,8 +29,17 @@ class Solution:
             The digits of the incremented number, most significant first.
         """
         self._validate(digits)
-        # TODO: write your solution here
-        raise NotImplementedError
+        
+        string = ""
+        for digit in digits:
+            string += str(digit)
+        integer = int(string)
+        integer_plusOne = integer + 1
+        
+        list = []
+        for digit in str(integer_plusOne):
+            list.append(int(digit))
+        return list
 
     @staticmethod
     def _validate(digits: list[int]) -> None:

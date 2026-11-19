@@ -13,6 +13,7 @@ One Python DSA problem a day. For each problem I write a brute-force solution fi
 | 3 | 2026-11-16 | [Palindrome Number](https://leetcode.com/problems/palindrome-number/): string reversal, two pointers, reverse half | Math | Easy | 3 | [palindrome-number](palindrome-number/) |
 | 4 | 2026-11-17 | [Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/): new list, two pointers | Two Pointers | Easy | 2 | [remove-duplicates-from-sorted-array](remove-duplicates-from-sorted-array/) |
 | 5 | 2026-11-18 | [Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/): in place, unsorted input | Two Pointers | Easy | 1 | [remove-duplicates-from-sorted-array](remove-duplicates-from-sorted-array/) |
+| 5 | 2026-11-18 | [Plus One](https://leetcode.com/problems/plus-one/): string conversion | Math | Easy | 1 | [plus-one](plus-one/) |
 
 ## How each folder is organized
 
