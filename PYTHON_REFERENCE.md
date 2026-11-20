@@ -63,6 +63,8 @@ sum(x * x for x in nums)
 label = f"<{len(nums):,} ints>" if len(nums) > 10 else repr(nums)
 ```
 
+**Truthiness**: empty containers (`[]`, `""`, `{}`, `set()`), `0` and `None` are falsy, so `if not strs:` means "if `strs` is empty". Use `is None` when you only mean `None`.
+
 **Short-circuit `and` / `or`**: the right side isn't evaluated if the left side already decides the result.
 ```python
 isinstance(nums, list) and len(nums) > 10   # len() only runs on a list

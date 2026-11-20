@@ -15,6 +15,7 @@ One Python DSA problem a day. For each problem I write a brute-force solution fi
 | 5 | 2026-11-18 | [Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/): in place, unsorted input | Two Pointers | Easy | 1 | [remove-duplicates-from-sorted-array](remove-duplicates-from-sorted-array/) |
 | 5 | 2026-11-18 | [Plus One](https://leetcode.com/problems/plus-one/): string conversion | Math | Easy | 1 | [plus-one](plus-one/) |
 | 6 | 2026-11-19 | [Plus One](https://leetcode.com/problems/plus-one/): map, carry | Math | Easy | 2 | [plus-one](plus-one/) |
+| 6 | 2026-11-19 | [Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix/): nested loops | Strings | Easy | 1 | [longest-common-prefix](longest-common-prefix/) |
 
 ## How each folder is organized
 
@@ -38,3 +39,4 @@ python two-sum/solution_1_brute_force.py
 - Arrays & Hashing
 - Math
 - Two Pointers
+- Strings

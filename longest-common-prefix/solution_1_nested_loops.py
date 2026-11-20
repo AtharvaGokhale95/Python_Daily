@@ -6,8 +6,11 @@ https://leetcode.com/problems/longest-common-prefix/
 Write a function to find the longest common prefix string amongst a list of
 strings. If there is no common prefix, return an empty string "".
 
-Idea: TODO (outer loop over the character positions of the first string; inner loop over the other strings; stop at the first position where a string is too short or has a different character)
-Time: O(?) | Space: O(?)
+Idea: Outer loop over the character positions of the first string; inner loop
+over the other strings. Stop at the first position where a string is too short
+or has a different character; until then, add the character to the prefix.
+Time: O(S), S = total characters compared (at most n strings x m prefix chars) |
+Space: O(m) for the prefix
 """
 
 
@@ -27,8 +30,24 @@ class Solution:
             The longest common prefix, or "" if there is none.
         """
         self._validate(strs)
-        # TODO: write your solution here
-        raise NotImplementedError
+        
+        if not strs:
+            return ""
+        
+        prefix = ""
+        for i in range(len(strs[0])):       # outer loop iterates over only the first string in strs; strs[0]
+            current_char = strs[0][i]       # capture one char at a time from strs[0]                 
+            
+            for string in strs[1:]:         # inner loop iterates from the second string in strs until the end; we will use the same idx from outer loop
+                if i >= len(string) or string[i] != current_char:
+                    return prefix
+                # inner loop checks if we find a char which is not common so that we can return the longest common prefix 
+            
+            # if the control does not enter the if loop, we exit for loop and update the prefix with new character
+            prefix += current_char
+        
+        return prefix
+            
 
     @staticmethod
     def _validate(strs: list[str]) -> None:
