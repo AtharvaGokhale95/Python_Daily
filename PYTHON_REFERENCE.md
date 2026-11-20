@@ -25,6 +25,10 @@ str("3")    # '3'
 
 **`reversed(seq)`**: walks a sequence backwards lazily, without copying it. `reversed(range(n))` gives `n-1, ..., 0` (same as `range(n - 1, -1, -1)`).
 
+**`str.startswith(prefix)` / `str.endswith(suffix)`**: `True` if the string begins/ends with it. Accepts a tuple to test several at once: `name.endswith((".py", ".md"))`. Every string starts with `""`.
+
+**`min(items, key=len)` / `max(..., key=...)`**: `key` picks what to compare by and returns the original item: `min(["flow", "fl", "flower"], key=len)` → `'fl'`.
+
 **`map(function, iterable)`**: applies the function to every item and returns a **lazy iterator**; wrap it in `list(...)` to get a list. It can only be consumed once.
 ```python
 list(map(int, "130"))          # [1, 3, 0]

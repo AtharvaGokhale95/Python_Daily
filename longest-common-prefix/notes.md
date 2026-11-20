@@ -9,12 +9,12 @@ Example: `["flower", "flow", "flight"]` → `"fl"`; `["dog", "racecar", "car"]` 
 
 ## Approaches
 
-n = number of strings, m = length of the common prefix (at most the shortest string), S = total characters compared (at most n × m).
+n = number of strings, m = length of the common prefix (at most the shortest string), S = total characters compared (at most n × m), L = length of the first string.
 
 | # | Approach | Time | Space |
 |---|----------|------|-------|
 | 1 | Nested loops (character by character) (Day 6) | O(S) | O(m) |
-| 2 | Shrink with startswith() | | |
+| 2 | Shrink with startswith() (Day 6) | O(n · L) checks, O(L²) worst | O(L) |
 
 ### 1. Nested loops (character by character)
 _Idea:_ This is **vertical scanning**: compare the strings one column at a time. The outer loop picks position `i` in the first string; the inner loop checks that every other string has the same character at `i`. The first string that is too short or has a different character ends the search, and everything matched so far is the answer. If the outer loop finishes, the whole first string is the prefix.
@@ -71,13 +71,49 @@ All 16 tests pass. Also checked against Python's `os.path.commonprefix` on 20,00
 
 
 ### 2. Shrink with startswith()
-_Idea:_
+_Idea:_ This is **horizontal scanning**: assume the whole first string is the prefix, then let each other string cut it down. For each string, while it doesn't start with the current prefix, drop the prefix's last character. A prefix that survives every string is common to all of them, and it's the longest one because it was only ever shortened as much as needed.
+
+**Complexity:**
+- Each `startswith` check is O(length of the prefix), so the checks cost up to O(n · L).
+- Each shrink `prefix[:-1]` builds a new string, O(L). If the first string is much longer than the answer, that's up to L shrinks, O(L²) in total. Starting from the **shortest** string (`min(strs, key=len)`) keeps L as small as possible.
+- In practice it's fast because `startswith` runs in C: 1,000 matching strings of 10,000 characters took about 0.001 s (Approach 1 took about 2.4 s on the same input), and 30,000 shrinks took about 0.05 s.
+- O(L) extra space for the prefix.
+
+#### Code walkthrough: Approach 2
+
+`_validate`, the docstring, `short()` and the test harness are the same as in Approach 1. New in this approach:
+
+**Structure and syntax**
+
+| Element | Where | What it does |
+|---|---|---|
+| `prefix = strs[0]` | before the loop | Start with the longest possible answer: the whole first string. |
+| `for string in strs[1:]:` | loop | Every string except the first. Here the slice is made once, unlike Approach 1. |
+| `string.startswith(prefix)` | `while` condition | String method: `True` if `string` begins with `prefix`. Every string starts with `""`, so the loop always ends. |
+| `while not ...:` | loop | Keep shrinking until this string accepts the prefix. |
+| `prefix = prefix[:-1]` | loop body | Slice with a negative end: everything except the last character. Strings can't be changed in place, so this builds a new, shorter string. |
+| `return prefix` | end | What survived every string. |
+
+**Trace for `["flower", "flow", "flight"]`**
+
+| Current string | `prefix` before | Shrinks | `prefix` after |
+|---|---|---|---|
+| (start) | | | `"flower"` |
+| `"flow"` | `"flower"` | `"flowe"` → `"flow"` | `"flow"` |
+| `"flight"` | `"flow"` | `"flo"` → `"fl"` | **`"fl"`** |
+
+**Test cases:** the same 12 cases and 4 bad inputs as Approach 1. All 16 pass. Also checked against `os.path.commonprefix` on 20,000 random inputs with no mismatches.
+
 
 ## Mistakes / edge cases
+- Approach 2: same unreachable `if not strs: return ""` as Approach 1.
+- Approach 2: starting from `strs[0]` is fine for LeetCode sizes; starting from `min(strs, key=len)` avoids extra shrinks when the first string is very long.
 - Approach 1: `if not strs: return ""` is unreachable because `_validate` raises `ValueError` for an empty list first. It can be removed.
 - Approach 1: `strs[1:]` inside the outer loop copies the list on every character. With 1,000 strings of 10,000 matching characters that's 10 million extra copies (about 2.4 s total). Create `rest = strs[1:]` once, before the outer loop.
 - Approach 1: `return strs[0][:i]` would avoid building `prefix` one character at a time.
 
 ## Key takeaway
+Horizontal scanning (shrink a candidate until every string accepts it) is shorter to write and, thanks to `startswith` running in C, often faster than comparing character by character, even though its worst case is worse on paper.
+
 Vertical scanning compares column by column and stops at the first mismatch, so it never reads past the answer. Check the length before indexing (`i >= len(string) or ...`) and let short-circuit `or` protect the index.
 
