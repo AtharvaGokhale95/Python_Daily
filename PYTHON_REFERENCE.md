@@ -27,6 +27,13 @@ str("3")    # '3'
 
 **`str.startswith(prefix)` / `str.endswith(suffix)`**: `True` if the string begins/ends with it. Accepts a tuple to test several at once: `name.endswith((".py", ".md"))`. Every string starts with `""`.
 
+**`str.find(sub)` / `str.index(sub)`**: index of the first occurrence of `sub`. When it's missing, `find()` returns `-1` but `index()` raises `ValueError`. Both take optional `start, end`; `rfind()` / `rindex()` search from the right. To just test presence, use `sub in s`.
+```python
+"sadbutsad".find("sad")   # 0
+"leetcode".find("leeto")  # -1
+"leetcode".index("leeto") # ValueError: substring not found
+```
+
 **`min(items, key=len)` / `max(..., key=...)`**: `key` picks what to compare by and returns the original item: `min(["flow", "fl", "flower"], key=len)` → `'fl'`.
 
 **`map(function, iterable)`**: applies the function to every item and returns a **lazy iterator**; wrap it in `list(...)` to get a list. It can only be consumed once.

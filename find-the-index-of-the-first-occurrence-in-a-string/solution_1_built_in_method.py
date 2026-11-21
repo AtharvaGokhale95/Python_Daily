@@ -8,8 +8,11 @@ occurrence of `needle` in `haystack`, or -1 if `needle` is not part of
 `haystack`.
 Example: haystack = "sadbutsad", needle = "sad" -> 0
 
-Idea: TODO (a str method already does this search; check what find() returns when needle is missing, and how index() differs)
-Time: O(?) | Space: O(?)
+Idea: str.find(needle) already returns the index of the first match, or -1
+when there is none, which is exactly what the problem asks for. (str.index()
+does the same search but raises ValueError instead of returning -1.)
+Time: O(n + m) in practice (CPython's fast search; n = len(haystack),
+m = len(needle)) | Space: O(1)
 """
 
 
@@ -29,8 +32,12 @@ class Solution:
             The first index i where haystack[i:i + len(needle)] == needle, or -1.
         """
         self._validate(haystack, needle)
-        # TODO: write your solution here
-        raise NotImplementedError
+        
+        # Both search a string for a substring and return the index of its first match. The difference is what happens when nothing is found.
+        # find() returns -1
+        # index() returns ValueError: substring not founc
+        
+        return haystack.find(needle)
 
     @staticmethod
     def _validate(haystack: str, needle: str) -> None:
