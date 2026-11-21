@@ -12,27 +12,49 @@ solutions or notes. One method per approach; they can share `_validate`.
 Validation: raise TypeError for a non-list / non-int input, ValueError when
 no pair exists.
 
-Approach 1: Brute force       | Time: O(?) | Space: O(?) | Result: TODO
-Approach 2: Hash map          | Time: O(?) | Space: O(?) | Result: TODO
+Approach 1: Brute force       | Time: O(n^2) | Space: O(1) | Result: needed help (inner loop started at 1, not i + 1; _validate not called)
+Approach 2: Hash map          | Time: O(n)   | Space: O(n) | Result: needed help (_validate not called)
+Both issues found in review on 2026-11-21 and fixed by Atharva the same day.
 """
 
 
 class Solution:
     def twoSum_brute_force(self, nums: list[int], target: int) -> list[int]:
+        
+        self._validate(nums, target)
+        
         """Approach 1: Brute force."""
-        # TODO: write your solution here
-        raise NotImplementedError
+        for i in range(len(nums)):
+            compliment = target - nums[i]
+            for j in range(i + 1, len(nums)):
+                if nums[j] == compliment:
+                    return [i, j]
+        raise ValueError("No two numbers add up to the target")
+                
 
     def twoSum_hash_map(self, nums: list[int], target: int) -> list[int]:
+        
+        self._validate(nums, target)
+        
         """Approach 2: Hash map (one pass)."""
-        # TODO: write your solution here
-        raise NotImplementedError
+        seen_dict = {}
+        # enumerate() gives index, value at the same time 
+        for idx, value in enumerate(nums):
+            compliment = target - value
+            if compliment in seen_dict: 
+                return [seen_dict[compliment], idx]         # the order of idx: smaller, larger: thus seen_dict[compliment], idx
+            seen_dict[value] = idx
+        raise ValueError("No two numbers add up to the target")
+            
 
     @staticmethod
     def _validate(nums: list[int], target: int) -> None:
-        # TODO: raise TypeError for bad input types
-        pass
-
+        if not isinstance(nums, list):
+            raise TypeError(f"nums must be a list, got {type(nums).__name__}")
+        if not isinstance(target, int):
+            raise TypeError(f"target should be an integer, got {type(target).__name__}")
+        if not all(isinstance(x, int) for x in nums):
+            raise TypeError(f"every value in nums should be integer")
 
 def short(nums) -> str:
     """Show long lists as their length so they don't flood the terminal."""
@@ -58,6 +80,7 @@ if __name__ == "__main__":
         ([0, 4, 3, 0], 0, [0, 3]),             # zeros
         ([5, 1, 9, 4], 13, [2, 3]),            # answer at the very end
         ([-3, 4, 3, 90], 0, [0, 2]),           # negative + positive
+        ([1, 3, 4, 2], 6, [2, 3]),             # 3 + 3 would reuse index 1
     ]
     large_cases = [
         (list(range(100_000)), 199_997, [99_998, 99_999]),  # large input
@@ -71,6 +94,7 @@ if __name__ == "__main__":
         ("123", 3, TypeError),         # not a list
         ([1, "2"], 3, TypeError),      # non-int element
         ([1, 2], "3", TypeError),      # non-int target
+        ([1.5, 0.5], 2, TypeError),    # floats add up, but aren't ints
     ]
 
     for label, method, run_large in approaches:

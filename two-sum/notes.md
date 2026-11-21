@@ -190,8 +190,17 @@ Review notes:
 - `f"Every element in nums must be an int"` has no placeholders, so the `f` can be dropped.
 - Typo in the docstring: "intergers" → "integers".
 
+## Revisits
+| # | Date | Approach | Result | Notes |
+|---|---|---|---|---|
+| 1 | 2026-11-21 | Brute force | Needed help | Inner loop started at `1` instead of `i + 1`, so an element could pair with itself (`[1, 3, 4, 2]`, 6 → `[1, 1]`). `_validate` was never called, so `[1.5, 0.5]` slipped through. Fixed after review. |
+| 1 | 2026-11-21 | Hash map | Needed help | Logic correct first time; `_validate` was never called. Fixed after review. |
+
+Added to the revisit tests: `[1, 3, 4, 2]`, 6 → `[2, 3]` and `[1.5, 0.5]` → TypeError.
+
 ## Mistakes / edge cases
 - Tested: basic case, can't reuse the same index, duplicates, negatives, zeros, no solution, empty list, wrong types.
+- Revisit 1: the inner loop must start at `i + 1`, and every method must call `self._validate(...)` first; a TypeError raised by `-` is not validation.
 - `bool` is a subclass of `int` in Python, so `[True, 1]` passes validation.
 
 ## Key takeaway
