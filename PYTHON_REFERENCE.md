@@ -154,6 +154,8 @@ Exception classes are ordinary values, so `except exc:` works with `exc` holding
 
 ## Structure
 
+**Class attribute**: a variable defined in the class body (not in `__init__`) is shared by every instance; read it as `self.NAME` or `ClassName.NAME`. Good for constant lookup tables: `VALUES = {"I": 1, "V": 5}`. Assigning `self.NAME = ...` creates an instance attribute that hides it.
+
 **`@staticmethod`**: a method that doesn't take `self`, because it only uses its arguments, like `_validate`.
 
 **Leading underscore `_validate`**: marks a method as internal by convention. Python doesn't enforce it.

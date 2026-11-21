@@ -18,6 +18,7 @@ One Python DSA problem a day. For each problem I write a brute-force solution fi
 | 5 | 2026-11-18 | [Plus One](https://leetcode.com/problems/plus-one/): string conversion | Math | Carry from the right | Easy | 1 | [plus-one](plus-one/) |
 | 6 | 2026-11-19 | [Plus One](https://leetcode.com/problems/plus-one/): map, carry | Math | Carry from the right | Easy | 2 | [plus-one](plus-one/) |
 | 6 | 2026-11-19 | [Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix/): nested loops, startswith | Strings | Vertical / horizontal scan | Easy | 2 | [longest-common-prefix](longest-common-prefix/) |
+| 7 | 2026-11-20 | [Roman to Integer](https://leetcode.com/problems/roman-to-integer/): single pass | Math | Value map + look-ahead | Easy | 1 | [roman-to-integer](roman-to-integer/) |
 
 ## How each folder is organized
 

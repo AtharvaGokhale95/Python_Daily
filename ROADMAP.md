@@ -2,7 +2,7 @@
 
 87 Python DSA problems, grouped by pattern, to finish before applying for Data Scientist and Data Engineer roles. I solve them top to bottom, one group at a time: the easy problems teach the pattern's template, the mediums teach its variations. Most are LeetCode problems; the rest are data-Python problems (group-by, dedupe, sessionizing …), object-oriented Python exercises (classes, inheritance, exceptions, special methods) and data structures built from scratch. Machine learning is practised separately, not here.
 
-**Progress:** 5 / 87 solved · 0 mastered
+**Progress:** 6 / 87 solved · 0 mastered
 
 **Mastery rule:** every solved problem is re-solved from a blank file, without notes, 7, 14 and 21 days after I first solve it. Three clean re-solves = mastered; needing help restarts the schedule.
 
@@ -10,7 +10,7 @@ Status: ✅ solved · ⭐ mastered · 🔜 up next · ⬜ not started. `DS` / `D
 
 | # | Pattern group | Solved |
 |--:|---|--:|
-| 1 | [Math & Strings](#1-math--strings) | 3/8 |
+| 1 | [Math & Strings](#1-math--strings) | 4/8 |
 | 2 | [Arrays & Hashing](#2-arrays--hashing) | 1/10 |
 | 3 | [Two Pointers](#3-two-pointers) | 1/6 |
 | 4 | [Sliding Window](#4-sliding-window) | 0/6 |
@@ -28,13 +28,13 @@ Status: ✅ solved · ⭐ mastered · 🔜 up next · ⬜ not started. `DS` / `D
 
 ## 1. Math & Strings
 
-**Spot it:** Digits with % and //, building or scanning a string, parsing text. · 3/8 solved
+**Spot it:** Digits with % and //, building or scanning a string, parsing text. · 4/8 solved
 
 | # | Problem | Pattern | Difficulty | Status | Solution |
 |--:|---|---|---|:-:|---|
 | 1 | [Palindrome Number](https://leetcode.com/problems/palindrome-number/) · LC 9 | Digit reversal with % and // | Easy | ✅ | [palindrome-number](palindrome-number/) |
 | 2 | [Plus One](https://leetcode.com/problems/plus-one/) · LC 66 | Carry from the right | Easy | ✅ | [plus-one](plus-one/) |
-| 3 | [Roman to Integer](https://leetcode.com/problems/roman-to-integer/) · LC 13 | Value map + look-ahead | Easy | 🔜 | [roman-to-integer](roman-to-integer/) |
+| 3 | [Roman to Integer](https://leetcode.com/problems/roman-to-integer/) · LC 13 | Value map + look-ahead | Easy | ✅ | [roman-to-integer](roman-to-integer/) |
 | 4 | [Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix/) · LC 14 | Vertical / horizontal scan | Easy | ✅ | [longest-common-prefix](longest-common-prefix/) |
 | 5 | [Reverse Integer](https://leetcode.com/problems/reverse-integer/) · LC 7 | Digit reversal + overflow check | Medium | ⬜ |  |
 | 6 | [String Compression](https://leetcode.com/problems/string-compression/) · LC 443 | Run-length encoding, read/write pointers | Medium | ⬜ |  |
