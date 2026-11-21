@@ -36,7 +36,7 @@ Status: ✅ solved · ⭐ mastered · 🔜 up next · ⬜ not started. `DS` / `D
 | 2 | [Plus One](https://leetcode.com/problems/plus-one/) · LC 66 | Carry from the right | Easy | ✅ | [plus-one](plus-one/) |
 | 3 | [Roman to Integer](https://leetcode.com/problems/roman-to-integer/) · LC 13 | Value map + look-ahead | Easy | ✅ | [roman-to-integer](roman-to-integer/) |
 | 4 | [Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix/) · LC 14 | Vertical / horizontal scan | Easy | ✅ | [longest-common-prefix](longest-common-prefix/) |
-| 5 | [Find the Index of the First Occurrence in a String](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/) · LC 28 | Substring search: slide and compare | Easy | ⬜ |  |
+| 5 | [Find the Index of the First Occurrence in a String](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/) · LC 28 | Substring search: slide and compare | Easy | 🔜 | [find-the-index-of-the-first-occurrence-in-a-string](find-the-index-of-the-first-occurrence-in-a-string/) |
 | 6 | [Add Binary](https://leetcode.com/problems/add-binary/) · LC 67 | Carry from the right, base 2 | Easy | ⬜ |  |
 | 7 | [Reverse Integer](https://leetcode.com/problems/reverse-integer/) · LC 7 | Digit reversal + overflow check | Medium | ⬜ |  |
 | 8 | [String Compression](https://leetcode.com/problems/string-compression/) · LC 443 | Run-length encoding, read/write pointers | Medium | ⬜ |  |
