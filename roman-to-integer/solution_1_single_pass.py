@@ -30,8 +30,15 @@ class Solution:
             The value of s as an int.
         """
         self._validate(s)
-        # TODO: write your solution here
-        raise NotImplementedError
+        dict ={
+            'I' : 1, 
+            'V' : 5, 
+            'X' : 10, 
+            'L' : 50, 
+            'C' : 100,
+            'D' : 500, 
+            'M' : 1000
+        }
 
     @staticmethod
     def _validate(s: str) -> None:
