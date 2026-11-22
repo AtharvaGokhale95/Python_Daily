@@ -1,8 +1,8 @@
 # Roadmap — Set 1
 
-92 Python DSA problems, grouped by pattern, to finish before applying for Data Scientist and Data Engineer roles. I solve them top to bottom, one group at a time: the easy problems teach the pattern's template, the mediums teach its variations. Most are LeetCode problems; the rest are data-Python problems (group-by, dedupe, sessionizing …), object-oriented Python exercises (classes, inheritance, exceptions, special methods) and data structures built from scratch. Machine learning is practised separately, not here.
+92 Python DSA problems, grouped by pattern, plus 14 testing and A/B-testing problems (groups 16–17, done 1–2 a week alongside the DSA groups), to finish before applying for Data Scientist and Data Engineer roles. I solve them top to bottom, one group at a time: the easy problems teach the pattern's template, the mediums teach its variations. Most are LeetCode problems; the rest are data-Python problems (group-by, dedupe, sessionizing …), object-oriented Python exercises (classes, inheritance, exceptions, special methods) and data structures built from scratch. Machine learning is practised separately, not here.
 
-**Progress:** 7 / 92 solved · 0 mastered
+**Progress:** 7 / 106 solved · 0 mastered
 
 **Mastery rule:** every solved problem is re-solved from a blank file, without notes, 7, 14 and 21 days after I first solve it. Three clean re-solves = mastered; needing help restarts the schedule.
 
@@ -25,6 +25,8 @@ Status: ✅ solved · ⭐ mastered · 🔜 up next · ⬜ not started. `DS` / `D
 | 13 | [Trees](#13-trees) | 0/7 |
 | 14 | [Graphs](#14-graphs) | 0/3 |
 | 15 | [1-D DP & Greedy](#15-1-d-dp--greedy) | 0/4 |
+| 16 | [Testing in Python](#16-testing-in-python) | 0/8 |
+| 17 | [Statistical Testing & A/B](#17-statistical-testing--ab) | 0/6 |
 
 ## 1. Math & Strings
 
@@ -222,3 +224,31 @@ Status: ✅ solved · ⭐ mastered · 🔜 up next · ⬜ not started. `DS` / `D
 | 90 | [House Robber](https://leetcode.com/problems/house-robber/) · LC 198 *(optional)* | Take / skip DP | Medium | ⬜ |  |
 | 91 | [Maximum Subarray](https://leetcode.com/problems/maximum-subarray/) · LC 53 *(optional)* | Kadane's algorithm | Medium | ⬜ |  |
 | 92 | [Jump Game](https://leetcode.com/problems/jump-game/) · LC 55 | Greedy farthest reach | Medium | ⬜ |  |
+
+## 16. Testing in Python
+
+**Spot it:** Prove code works: assertions, fixtures, mocks, data checks. Do 1–2 a week alongside the DSA groups. · 0/8 solved
+
+| # | Problem | Pattern | Difficulty | Status | Solution |
+|--:|---|---|---|:-:|---|
+| 93 | pytest Basics · testing | assert, pytest.raises, @pytest.mark.parametrize with ids | Easy | ⬜ |  |
+| 94 | Fixtures and File I/O · testing `DE` | @pytest.fixture, conftest.py, tmp_path for a CSV cleaner | Easy | ⬜ |  |
+| 95 | Mocking External Calls · testing `DE` | monkeypatch / unittest.mock for an API client with retries | Medium | ⬜ |  |
+| 96 | Testing pandas Transforms · testing | pandas.testing.assert_frame_equal, edge-case DataFrames | Medium | ⬜ |  |
+| 97 | Data Quality Checks · testing `DE` | Schema, nulls, duplicates and ranges as reusable checks | Medium | ⬜ |  |
+| 98 | Testing Time-Dependent Code · testing `DE` | Inject the clock instead of calling now() | Medium | ⬜ |  |
+| 99 | Markers, Coverage and CI · testing | @pytest.mark, pytest-cov, GitHub Actions | Easy | ⬜ |  |
+| 100 | Property-Based Testing · testing *(optional)* | hypothesis: generate inputs, check invariants | Medium | ⬜ |  |
+
+## 17. Statistical Testing & A/B
+
+**Spot it:** "Is this difference real?": p-values, confidence intervals, power. Core for DS interviews; 1–2 a week. · 0/6 solved
+
+| # | Problem | Pattern | Difficulty | Status | Solution |
+|--:|---|---|---|:-:|---|
+| 101 | A/B Test: Conversion Rates · stats `DS` | Two-proportion z-test from scratch, checked with statsmodels | Medium | ⬜ |  |
+| 102 | A/B Test: Revenue per User · stats `DS` | Welch's t-test for a continuous metric | Medium | ⬜ |  |
+| 103 | Sample Size and Power · stats `DS` | Power calculation for a minimum detectable effect | Medium | ⬜ |  |
+| 104 | Bootstrap and Permutation Tests · stats `DS` | Resampling confidence interval and p-value | Medium | ⬜ |  |
+| 105 | Chi-Square Test of Independence · stats `DS` | Contingency table, expected counts | Easy | ⬜ |  |
+| 106 | A/B Test End to End · stats `DS` | SRM check, analysis, decision; peeking and multiple comparisons | Medium | ⬜ |  |

@@ -4,7 +4,7 @@ One Python DSA problem a day. For each problem I write a brute-force solution fi
 
 **Started:** Nov 14, 2026
 
-**Roadmap:** [ROADMAP.md](ROADMAP.md) lists the 92 Python DSA problems (Set 1) I'm working through, grouped by pattern, with my progress.
+**Roadmap:** [ROADMAP.md](ROADMAP.md) lists the 92 Python DSA problems (Set 1) I'm working through, grouped by pattern, plus 14 testing and A/B-testing problems I do 1–2 a week, with my progress.
 
 ## Progress
 
