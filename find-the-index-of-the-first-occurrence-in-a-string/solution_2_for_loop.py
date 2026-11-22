@@ -8,8 +8,10 @@ occurrence of `needle` in `haystack`, or -1 if `needle` is not part of
 `haystack`.
 Example: haystack = "sadbutsad", needle = "sad" -> 0
 
-Idea: TODO (loop over every start index i where needle could still fit; compare haystack[i:i + len(needle)] with needle)
-Time: O(?) | Space: O(?)
+Idea: Try every start index i where needle could still fit (0 to n - m) and
+compare the slice haystack[i:i + m] with needle; return the first i that
+matches, or -1 after the loop.
+Time: O((n - m + 1) * m), i.e. O(n * m) worst case | Space: O(m) for each slice
 """
 
 
@@ -29,8 +31,19 @@ class Solution:
             The first index i where haystack[i:i + len(needle)] == needle, or -1.
         """
         self._validate(haystack, needle)
-        # TODO: write your solution here
-        raise NotImplementedError
+        
+        # size of haystack
+        n = len(haystack)
+        
+        # size of needle
+        m = len(needle)
+        
+        # At each i, check whether the m characters starting at i equal needle
+        for i in range(0, n - m + 1):               # the loop should run only until n - m + 1, as that is the last possible idx where the needle string can start
+            # +1 as range stops before the end value
+            if haystack[i : i + m] == needle:       # [i : i + m] - this ensures we check for needle at every i for next m chars
+                return i
+        return -1                                   # if there is not match      
 
     @staticmethod
     def _validate(haystack: str, needle: str) -> None:
