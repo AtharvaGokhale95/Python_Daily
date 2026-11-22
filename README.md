@@ -21,24 +21,36 @@ One Python DSA problem a day. For each problem I write a brute-force solution fi
 | 7 | 2026-11-20 | [Roman to Integer](https://leetcode.com/problems/roman-to-integer/): single pass | Math | Value map + look-ahead | Easy | 1 | [roman-to-integer](roman-to-integer/) |
 | 8 | 2026-11-21 | [Find the Index of the First Occurrence in a String](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/): built-in method, for loop | Strings | Substring search: slide and compare | Easy | 2 | [find-the-index-of-the-first-occurrence-in-a-string](find-the-index-of-the-first-occurrence-in-a-string/) |
 
-## How each folder is organized
+## How the repo is organized
 
 ```
-problem-name/
-├── solution_1_<name>.py        # first approach
-├── solution_2_<name>.py        # each better approach in its own file
-└── notes.md                    # problem, approach comparison, mistakes, key takeaway
+Python_Daily/
+├── helpers.py                  # loader: finds each problem's solution files + revisit methods
+├── pytest.ini                  # tells pytest where helpers.py is
+├── .github/workflows/tests.yml # runs pytest on every push
+└── problem-name/
+    ├── solution_1_<name>.py    # first approach: just the Solution class
+    ├── solution_2_<name>.py    # each further approach in its own file
+    ├── revisits/
+    │   └── revisit_N_YYYY-MM-DD.py   # re-solve: one method per approach
+    ├── test_problem_name.py    # tests every solution file and revisit method
+    └── notes.md                # problem, approach comparison, mistakes, key takeaway
 ```
 
 [PYTHON_REFERENCE.md](PYTHON_REFERENCE.md) is a short cheat sheet of the less-common Python used in these solutions.
 
-Re-solves (revisits) go in `problem-name/revisits/revisit_N_YYYY-MM-DD.py`: written from a blank file 7, 14 and 21 days after the first solve, with every approach as its own method (e.g. `twoSum_brute_force`, `twoSum_hash_map`) and the same tests run against each. Each problem's `notes.md` has a Revisits table.
+Re-solves (revisits) go in `problem-name/revisits/revisit_N_YYYY-MM-DD.py`: written from a blank file 7, 14 and 21 days after the first solve, with every approach as its own method (e.g. `twoSum_brute_force`, `twoSum_hash_map`). The problem's test file picks them up automatically. Each problem's `notes.md` has a Revisits table.
 
-Run any solution file directly to execute its tests:
+## Running the tests
 
 ```bash
-python two-sum/solution_1_brute_force.py
+pip install pytest
+pytest                  # every problem
+pytest two-sum          # one problem
+pytest two-sum -v       # one line per approach and test case
 ```
+
+Each `test_*.py` calls `approaches(__file__, "<methodName>")` from `helpers.py`, which imports every `solution_*.py` and every `revisits/revisit_*.py` method in that folder, so one set of test cases checks all of them. A starter that still raises `NotImplementedError` shows as skipped. GitHub Actions runs `pytest` on every push (see the Actions tab).
 
 ## Topics
 
