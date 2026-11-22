@@ -2,7 +2,7 @@
 
 92 Python DSA problems, grouped by pattern, plus 14 testing and A/B-testing problems (groups 16–17, done 1–2 a week alongside the DSA groups), to finish before applying for Data Scientist and Data Engineer roles. I solve them top to bottom, one group at a time: the easy problems teach the pattern's template, the mediums teach its variations. Most are LeetCode problems; the rest are data-Python problems (group-by, dedupe, sessionizing …), object-oriented Python exercises (classes, inheritance, exceptions, special methods) and data structures built from scratch. Machine learning is practised separately, not here.
 
-**Progress:** 7 / 106 solved · 0 mastered
+**Progress:** 8 / 106 solved · 0 mastered
 
 **Mastery rule:** every solved problem is re-solved from a blank file, without notes, 7, 14 and 21 days after I first solve it. Three clean re-solves = mastered; needing help restarts the schedule.
 
@@ -10,7 +10,7 @@ Status: ✅ solved · ⭐ mastered · 🔜 up next · ⬜ not started. `DS` / `D
 
 | # | Pattern group | Solved |
 |--:|---|--:|
-| 1 | [Math & Strings](#1-math--strings) | 5/10 |
+| 1 | [Math & Strings](#1-math--strings) | 6/10 |
 | 2 | [Arrays & Hashing](#2-arrays--hashing) | 1/10 |
 | 3 | [Two Pointers](#3-two-pointers) | 1/7 |
 | 4 | [Sliding Window](#4-sliding-window) | 0/6 |
@@ -30,7 +30,7 @@ Status: ✅ solved · ⭐ mastered · 🔜 up next · ⬜ not started. `DS` / `D
 
 ## 1. Math & Strings
 
-**Spot it:** Digits with % and //, building or scanning a string, parsing text. · 5/10 solved
+**Spot it:** Digits with % and //, building or scanning a string, parsing text. · 6/10 solved
 
 | # | Problem | Pattern | Difficulty | Status | Solution |
 |--:|---|---|---|:-:|---|
@@ -39,7 +39,7 @@ Status: ✅ solved · ⭐ mastered · 🔜 up next · ⬜ not started. `DS` / `D
 | 3 | [Roman to Integer](https://leetcode.com/problems/roman-to-integer/) · LC 13 | Value map + look-ahead | Easy | ✅ | [roman-to-integer](roman-to-integer/) |
 | 4 | [Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix/) · LC 14 | Vertical / horizontal scan | Easy | ✅ | [longest-common-prefix](longest-common-prefix/) |
 | 5 | [Find the Index of the First Occurrence in a String](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/) · LC 28 | Substring search: slide and compare | Easy | ✅ | [find-the-index-of-the-first-occurrence-in-a-string](find-the-index-of-the-first-occurrence-in-a-string/) |
-| 6 | [Add Binary](https://leetcode.com/problems/add-binary/) · LC 67 | Carry from the right, base 2 | Easy | 🔜 | [add-binary](add-binary/) |
+| 6 | [Add Binary](https://leetcode.com/problems/add-binary/) · LC 67 | Carry from the right, base 2 | Easy | ✅ | [add-binary](add-binary/) |
 | 7 | [Reverse Integer](https://leetcode.com/problems/reverse-integer/) · LC 7 | Digit reversal + overflow check | Medium | ⬜ |  |
 | 8 | [String Compression](https://leetcode.com/problems/string-compression/) · LC 443 | Run-length encoding, read/write pointers | Medium | ⬜ |  |
 | 9 | Parse Log Lines · data Python `DE` | re / split parsing into records | Easy | ⬜ |  |

@@ -6,8 +6,10 @@ https://leetcode.com/problems/add-binary/
 Given two binary strings `a` and `b`, return their sum as a binary string.
 Example: a = "11", b = "1" -> "100"; a = "1010", b = "1011" -> "10101"
 
-Idea: TODO (int(text, 2) reads a binary string as a number; bin(n) turns a number back into text, but with a prefix you need to remove)
-Time: O(?) | Space: O(?)
+Idea: int(a, 2) and int(b, 2) read the binary strings as numbers; add them,
+then bin() turns the sum back into text ("0b100") and removeprefix("0b")
+drops the prefix.
+Time: O(n + m) (n, m = lengths of a and b) | Space: O(n + m) for the numbers and the result
 """
 
 
@@ -27,8 +29,11 @@ class Solution:
             a + b written in binary, with no leading zeros (except "0" itself).
         """
         self._validate(a, b)
-        # TODO: write your solution here
-        raise NotImplementedError
+        
+        # input is only '0' or '1' - no need to remove the binary prefix '0b'
+        # convert the binary to decimal - add them - convert them back to binary - remove the binary prefix
+        return bin(int(a, 2) + int(b, 2)).removeprefix('0b')
+         
 
     @staticmethod
     def _validate(a: str, b: str) -> None:

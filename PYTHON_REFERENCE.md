@@ -129,7 +129,13 @@ if target - num in seen: ...
 
 **Build strings with `"".join(...)`**: `"".join(map(str, [1, 2, 9]))` gives `'129'`. `s += ...` in a loop works but `join` is the idiomatic, guaranteed-linear way.
 
-**`int` ↔ `str` limit**: Python refuses to convert ints with more than 4,300 digits to or from a string (`ValueError: Exceeds the limit (4300)...`). `sys.set_int_max_str_digits(0)` removes the limit. Arithmetic itself has no size limit.
+**`int` ↔ `str` limit**: Python refuses to convert ints with more than 4,300 digits to or from a string (`ValueError: Exceeds the limit (4300)...`). `sys.set_int_max_str_digits(0)` removes the limit. Arithmetic itself has no size limit. Bases that are powers of 2 (binary, octal, hex) are exempt.
+
+**`int(text, base)`**: reads text in another base: `int("100", 2)` → `4`, `int("ff", 16)` → `255`. Lenient: it also accepts spaces around the digits, `_` between them and a matching prefix (`int(" 1_0 ", 2)` → `2`, `int("0b100", 2)` → `4`), so validate first if those should be errors. Base `0` reads the base from the prefix: `int("0x1f", 0)` → `31`.
+
+**`bin(n)` / `oct(n)` / `hex(n)`**: number → text **with a base prefix**, the way you'd write it in code: `bin(4)` → `'0b100'`, `hex(255)` → `'0xff'`. Without the prefix: `format(4, "b")` or `f"{4:b}"` → `'100'` (`"#b"` adds it back). Slicing `bin(n)[2:]` breaks for negatives (`bin(-4)` is `'-0b100'`).
+
+**`str.removeprefix(p)` / `str.removesuffix(s)`** (3.9+): removes `p` from the start only if it's there, otherwise returns the string unchanged: `"0b100".removeprefix("0b")` → `'100'`. Unlike `lstrip("0b")`, which strips any mix of those *characters* (`"0b0011".lstrip("0b")` → `'11'`).
 
 **Don't shadow built-ins**: `list = []`, `str = ...`, `sum = 0` hide the real `list()`, `str()`, `sum()` in that scope; a later `list(x)` then fails with `'list' object is not callable`.
 
