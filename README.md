@@ -21,6 +21,7 @@ One Python DSA problem a day. For each problem I write a brute-force solution fi
 | 7 | 2026-11-20 | [Roman to Integer](https://leetcode.com/problems/roman-to-integer/): single pass | Math | Value map + look-ahead | Easy | 1 | [roman-to-integer](roman-to-integer/) |
 | 8 | 2026-11-21 | [Find the Index of the First Occurrence in a String](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/): built-in method, for loop | Strings | Substring search: slide and compare | Easy | 2 | [find-the-index-of-the-first-occurrence-in-a-string](find-the-index-of-the-first-occurrence-in-a-string/) |
 | 9 | 2026-11-22 | [Add Binary](https://leetcode.com/problems/add-binary/): built-in conversion | Math | Carry from the right, base 2 | Easy | 1 | [add-binary](add-binary/) |
+| 10 | 2026-11-23 | [Add Binary](https://leetcode.com/problems/add-binary/): padded carry | Math | Carry from the right, base 2 | Easy | 1 | [add-binary](add-binary/) |
 
 ## How the repo is organized
 

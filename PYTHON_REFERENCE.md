@@ -135,6 +135,8 @@ if target - num in seen: ...
 
 **`bin(n)` / `oct(n)` / `hex(n)`**: number → text **with a base prefix**, the way you'd write it in code: `bin(4)` → `'0b100'`, `hex(255)` → `'0xff'`. Without the prefix: `format(4, "b")` or `f"{4:b}"` → `'100'` (`"#b"` adds it back). Slicing `bin(n)[2:]` breaks for negatives (`bin(-4)` is `'-0b100'`).
 
+**`str.zfill(width)`**: pads a string with leading `"0"`s up to `width` (keeps a leading sign): `"11".zfill(4)` → `'0011'`. Handy for lining up two numbers digit by digit. Same as `s.rjust(width, "0")` for unsigned strings.
+
 **`str.removeprefix(p)` / `str.removesuffix(s)`** (3.9+): removes `p` from the start only if it's there, otherwise returns the string unchanged: `"0b100".removeprefix("0b")` → `'100'`. Unlike `lstrip("0b")`, which strips any mix of those *characters* (`"0b0011".lstrip("0b")` → `'11'`).
 
 **Don't shadow built-ins**: `list = []`, `str = ...`, `sum = 0` hide the real `list()`, `str()`, `sum()` in that scope; a later `list(x)` then fails with `'list' object is not callable`.
