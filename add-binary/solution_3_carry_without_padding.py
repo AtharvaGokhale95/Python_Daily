@@ -40,11 +40,12 @@ class Solution:
         i = len(a) - 1      
         j = len(b) - 1
         
-        while i >= 0 or j >= 0 or carry:        # is there any work left - any bits pending to add or carry to add 
+        # while loop joins all 3 conditions using OR - it only tells you that at least one of them is true. It doesn't tell you which. Each if checks one specific source
+        while i >= 0 or j >= 0 or carry:        # is there any work left - any bits pending to add or carry to add
             
             total = carry
             
-            if i >= 0:
+            if i >= 0:                          # if conditions checks if "a" still have a digit in the current column
                 total += int(a[i])              # we separately add a[i] to total
                 i -= 1
                 
