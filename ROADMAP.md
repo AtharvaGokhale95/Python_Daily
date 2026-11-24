@@ -42,7 +42,7 @@ Status: ✅ solved · ⭐ mastered · 🔜 up next · ⬜ not started. `DS` / `D
 | 6 | [Add Binary](https://leetcode.com/problems/add-binary/) · LC 67 | Carry from the right, base 2 | Easy | ✅ | [add-binary](add-binary/) |
 | 7 | [Reverse Integer](https://leetcode.com/problems/reverse-integer/) · LC 7 | Digit reversal + overflow check | Medium | ⬜ |  |
 | 8 | [String Compression](https://leetcode.com/problems/string-compression/) · LC 443 | Run-length encoding, read/write pointers | Medium | ⬜ |  |
-| 9 | Parse Log Lines · data Python `DE` | re / split parsing into records | Easy | ⬜ |  |
+| 9 | Parse Log Lines · data Python `DE` | re / split parsing into records | Easy | 🔜 | [parse-log-lines](parse-log-lines/) |
 | 10 | Descriptive Stats from Scratch · data Python `DS` | Mean, median, mode, std, percentile by hand | Easy | ⬜ |  |
 
 ## 2. Arrays & Hashing
