@@ -6,10 +6,12 @@ https://leetcode.com/problems/add-binary/
 Given two binary strings `a` and `b`, return their sum as a binary string.
 Example: a = "11", b = "1" -> "100"; a = "1010", b = "1011" -> "10101"
 
-Idea: TODO (no zfill: keep one index for each string, both starting at the last
-character; loop while either index is still >= 0 OR there is a carry left, and
-treat a string that has run out as a 0 bit. Collect digits, then reverse.)
-Time: O(?) | Space: O(?)
+Idea: No padding: one index per string, both starting at the last character.
+Loop while either index is still >= 0 or a carry is left; each round starts
+total at carry and adds a[i] / b[j] only if that string still has bits. Write
+total % 2, carry total // 2; the final carry is handled inside the loop.
+Collect digits, then reverse.
+Time: O(max(n, m)) | Space: O(max(n, m)) for the result (no padded copies)
 """
 
 
@@ -29,9 +31,33 @@ class Solution:
             a + b written in binary, with no leading zeros (except "0" itself).
         """
         self._validate(a, b)
-        # TODO: write your solution here
-        raise NotImplementedError
-
+        
+        carry = 0
+        result = []
+    
+        # for this solution, the string a and b are not padded - they can have different lengths: so we are using two separate pointers
+        # following are the right most positions of a and b
+        i = len(a) - 1      
+        j = len(b) - 1
+        
+        while i >= 0 or j >= 0 or carry:        # is there any work left - any bits pending to add or carry to add 
+            
+            total = carry
+            
+            if i >= 0:
+                total += int(a[i])              # we separately add a[i] to total
+                i -= 1
+                
+            if j >= 0:
+                total += int(b[j])              # we separately add b[j] to total
+                j -= 1
+            
+            result.append(str(total % 2))       # digit to write
+            carry = total // 2                  # digit to carry
+        return "".join(reversed(result))    
+    
+    
+    
     @staticmethod
     def _validate(a: str, b: str) -> None:
         for name, value in (("a", a), ("b", b)):

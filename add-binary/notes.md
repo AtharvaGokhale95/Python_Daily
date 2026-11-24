@@ -13,6 +13,7 @@ Example: `a = "11"`, `b = "1"` → `"100"`; `a = "1010"`, `b = "1011"` → `"101
 |---|----------|------|-------|
 | 1 | Built-in conversion (Day 9) | O(n + m) | O(n + m) |
 | 2 | Carry from the right, padded with zfill (Day 10) | O(n) | O(n) |
+| 3 | Carry without padding, two indices (Day 11) | O(max(n, m)) | O(max(n, m)) |
 
 ### 1. Built-in conversion
 _Idea:_ Let Python do the base conversion both ways: `int(a, 2)` and `int(b, 2)` read the binary strings as ordinary integers, `+` adds them, `bin()` writes the sum back out in binary, and `.removeprefix("0b")` drops the `0b` that `bin()` puts in front.
@@ -93,6 +94,39 @@ Passes Claude's reference tests (9 cases, 9 bad inputs, 2,000 random sums), same
 Review notes:
 - Inputs with leading zeros keep them: `"001"` + `"1"` → `"010"`, while Approach 1 returns `"10"`. LeetCode promises no leading zeros, so it doesn't matter there, but `_validate` accepts `"001"`, so the two approaches disagree on input the code allows. Either reject leading zeros in `_validate` or strip them from the result (`.lstrip("0") or "0"`).
 - An alternative that skips padding: two indices `i`, `j` and `while i >= 0 or j >= 0 or carry:`, treating a finished string as 0. It also folds the final carry into the loop.
+
+### 3. Carry without padding (two indices)
+_Idea:_ Same column-by-column addition as Approach 2, but without `zfill`. Keep one index per string (`i`, `j`), both starting at the last character. Loop while **either** string still has bits **or** a carry is left. Each round, start `total` at `carry`, then add `a[i]` only if `i >= 0` and `b[j]` only if `j >= 0` (a string that has run out counts as 0), moving each index left after using it. Because `carry` is part of the loop condition, the final carry is written inside the loop: no extra `if carry:` after it.
+
+**Complexity:** the loop runs `max(n, m)` times, plus one round for a final carry: O(max(n, m)) time. No padded copies, so the only extra space is the result list, O(max(n, m)). Timing (best of 3, same machine): 1,000,000 bits + 1 bit: 0.72 s vs 0.84 s for Approach 2 (no padding, so most rounds skip one `int()` call); two 1,000,000-bit strings: 1.00 s vs 0.79 s (the two `if` checks per round cost a little more). Same O(n) either way; both are instant at LeetCode's 10⁴ limit (0.008 s).
+
+#### Code walkthrough: Approach 3
+
+| Element | Where | What it does |
+|---|---|---|
+| `i = len(a) - 1`, `j = len(b) - 1` | setup | Index of the last (rightmost) bit of each string. |
+| `while i >= 0 or j >= 0 or carry:` | loop | "Is there any work left?": bits in `a`, bits in `b`, or a carry. `carry` is truthy only when it's 1. |
+| `total = carry` | loop body | Start each column with the carry from the column to its right. |
+| `if i >= 0: total += int(a[i]); i -= 1` | loop body | Add `a`'s bit only while `a` has bits; then move left. Once `i` is -1, `a` contributes 0. (Without the check, `a[-1]` would quietly read the **last** character again: Python's negative indexing.) |
+| `if j >= 0: ...` | loop body | Same for `b`. |
+| `result.append(str(total % 2))`, `carry = total // 2` | loop body | Write the bit, keep the carry. |
+| `"".join(reversed(result))` | return | Bits were collected right to left. |
+
+**Trace for `a = "11"`, `b = "1"`**
+
+| round | i | j | total (carry + a[i] + b[j]) | write | carry |
+|---|---|---|---|---|---|
+| 1 | 1 | 0 | 0 + 1 + 1 = 2 | 0 | 1 |
+| 2 | 0 | −1 | 1 + 1 = 2 | 0 | 1 |
+| 3 | −1 | −1 | 1 (carry only) | 1 | 0 |
+
+`["0", "0", "1"]` → reversed → `"100"` ✓. Round 3 is the final carry, handled by the `or carry` in the loop condition.
+
+Passes your `test_add_binary.py` (all cases, bad inputs, random sums).
+
+Review notes:
+- Like Approach 2, inputs with leading zeros keep them (`"001"` + `"1"` → `"010"`).
+- `if carry:` and `while ... or carry` rely on truthiness (0 is falsy); `carry == 1` would say the same thing explicitly.
 
 ## Mistakes / edge cases
 - Returning the int instead of converting back to a binary string: the return type in the signature (`-> str`) is the reminder.
