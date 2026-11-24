@@ -177,6 +177,19 @@ Class structure, `_validate`, the docstring and the test harness are the same as
 **Test cases:** the same 10 cases and 3 bad inputs as Approach 1. All pass. Also checked against the string method for every number from 0 to 199,999 with no mismatches.
 
 
+## Revisits
+| # | Date | Approach | Result | Notes |
+|---|---|---|---|---|
+| 1 | 2026-11-23 | String reversal | Needed help | `str(x) == str(x)[::-1]`. Tests pass. |
+| 1 | 2026-11-23 | Two pointers | Needed help | Early exit for negatives and trailing zeros, then head/tail on `str(x)`. Tests pass. |
+| 1 | 2026-11-23 | Reverse half | Needed help | `while x > rev`, then `x == rev or x == rev // 10`; comments explain the odd/even case. Tests pass. |
+
+Revisit 1 was submitted on 11-24 and logged on its due date (11-23) at Atharva's request; he marked it "needed help", so the schedule restarts: retry due 11-30. All 39 revisit tests pass, and 50,000 random inputs match `str(x) == str(x)[::-1]` for all three methods.
+
+Review notes (revisit 1):
+- The `"""Approach …"""` strings come after `self._validate(x)`, so they're no longer docstrings (a docstring must be the first statement in the function). Same note as Two Sum revisit 1.
+- `bool` still passes `_validate` (`True` is an `int`): `isPalindrome_reverse_half(True)` returns `True` while `isPalindrome_string_reversal(True)` returns `False` (`"True"` isn't a palindrome). Reject it with `isinstance(x, bool)` or `type(x) is not int`.
+
 ## Mistakes / edge cases
 - Approach 3: the trailing-zero check is essential, not just a shortcut. Without it, `10` returns `True` (see the idea above).
 - Approach 3 header says `rev` in one comment but the variable is `reverse`. Minor.
