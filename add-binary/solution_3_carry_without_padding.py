@@ -49,7 +49,7 @@ class Solution:
                 total += int(a[i])              # we separately add a[i] to total
                 i -= 1
                 
-            if j >= 0:
+            if j >= 0:                          # if conditions checks if "a" still have a digit in the current column
                 total += int(b[j])              # we separately add b[j] to total
                 j -= 1
             
