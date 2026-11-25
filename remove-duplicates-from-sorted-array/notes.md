@@ -162,6 +162,18 @@ _Idea:_ Without sorting, "different from the previous value" no longer means "ne
 All 14 tests pass. Also checked against `list(dict.fromkeys(nums))` on 20,000 random unsorted lists with no mismatches.
 
 
+## Revisits
+| # | Date | Approach | Result | Notes |
+|---|---|---|---|---|
+| 1 | 2026-11-24 | New list | Needed help | `if num not in new_list`: correct but O(n²) (a list `in` scans the whole list; 40,000 values took 2.8 s). On sorted input compare with the last kept value instead (`new_list[-1] != num`) for O(n). |
+| 1 | 2026-11-24 | Two pointers | Needed help | Write index from 1, compare `nums[read_idx]` with `nums[read_idx - 1]`; empty list handled first. Tests pass. |
+| 1 | 2026-11-24 | In place, unsorted | Needed help | `seen` set + write index. `return len(nums[:write_idx])` builds a copy just to measure it: `return write_idx` is the same number. |
+
+Marked "needed help" by Atharva, so the schedule restarts from 11-24. All 38 revisit tests pass, and 5,000 random inputs match for all three methods.
+
+Review notes (revisit 1):
+- The `"""Approach …"""` strings come after `self._validate(nums)` (and in Approach 2 after the `if not nums` check), so they aren't docstrings. Third revisit in a row with this: put the docstring first, then validate.
+
 ## Mistakes / edge cases
 - Approach 3: `return len(nums[: write_idx])` copies part of the list just to measure it; `return write_idx` gives the same number in O(1).
 - Approach 2: the empty-list check is required: without it, `write_idx = 1` would return 1 for `[]`.
