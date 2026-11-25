@@ -23,6 +23,7 @@ One Python DSA problem a day. For each problem I write a brute-force solution fi
 | 9 | 2026-11-22 | [Add Binary](https://leetcode.com/problems/add-binary/): built-in conversion | Math | Carry from the right, base 2 | Easy | 1 | [add-binary](add-binary/) |
 | 10 | 2026-11-23 | [Add Binary](https://leetcode.com/problems/add-binary/): padded carry | Math | Carry from the right, base 2 | Easy | 1 | [add-binary](add-binary/) |
 | 11 | 2026-11-24 | [Add Binary](https://leetcode.com/problems/add-binary/): carry without padding | Math | Carry from the right, base 2 | Easy | 1 | [add-binary](add-binary/) |
+| 11 | 2026-11-24 | Parse Log Lines (data Python): split | Strings | re / split parsing into records | Easy | 1 | [parse-log-lines](parse-log-lines/) |
 
 ## How the repo is organized
 

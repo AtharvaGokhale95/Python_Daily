@@ -135,6 +135,8 @@ if target - num in seen: ...
 
 **`bin(n)` / `oct(n)` / `hex(n)`**: number → text **with a base prefix**, the way you'd write it in code: `bin(4)` → `'0b100'`, `hex(255)` → `'0xff'`. Without the prefix: `format(4, "b")` or `f"{4:b}"` → `'100'` (`"#b"` adds it back). Slicing `bin(n)[2:]` breaks for negatives (`bin(-4)` is `'-0b100'`).
 
+**`str.split(sep, maxsplit)`**: cuts at most `maxsplit` times, so the last piece keeps the rest of the string, separators included: `"a b c d".split(" ", 2)` → `['a', 'b', 'c d']`. With an explicit `" "`, two spaces in a row give an empty string (`"a  b".split(" ")` → `['a', '', 'b']`); `split()` with no argument splits on any run of whitespace and drops empties.
+
 **`str.zfill(width)`**: pads a string with leading `"0"`s up to `width` (keeps a leading sign): `"11".zfill(4)` → `'0011'`. Handy for lining up two numbers digit by digit. Same as `s.rjust(width, "0")` for unsigned strings.
 
 **`str.removeprefix(p)` / `str.removesuffix(s)`** (3.9+): removes `p` from the start only if it's there, otherwise returns the string unchanged: `"0b100".removeprefix("0b")` → `'100'`. Unlike `lstrip("0b")`, which strips any mix of those *characters* (`"0b0011".lstrip("0b")` → `'11'`).
@@ -167,7 +169,21 @@ else:
 ```
 Exception classes are ordinary values, so `except exc:` works with `exc` holding `ValueError`.
 
+## Dates
+
+**`datetime.strptime(text, format)`**: text → `datetime`; raises `ValueError` if the text doesn't match or isn't a real moment (`2026-02-30`, `25:00:00`). Codes: `%Y` year, `%m` month, `%d` day, `%H` hour (24h), `%M` minute, `%S` second. Lenient: `%m`/`%d`/`%H` also accept ONE digit (`"2026-1-5"` passes), so check lengths/shape first. Slow (~10–25 µs a call).
+```python
+from datetime import datetime
+datetime.strptime("2026-11-24 10:41:07", "%Y-%m-%d %H:%M:%S")
+```
+
+**`dt.isoformat()` / `datetime.fromisoformat(text)`**: `datetime` ↔ ISO text `"2026-11-24T10:41:07"`. `fromisoformat` is ~50× faster than `strptime` when the text is already ISO. `dt.strftime(format)` goes the other way with any format.
+
 ## Structure
+
+**Module-level constant**: a name defined at the top of the file, outside the class, in CAPS by convention (`LEVELS = {"DEBUG", ...}`): built once when the file is imported, shared by every call. A **set** makes `level in LEVELS` O(1).
+
+**`-> dict | None`** (3.10+): the function returns a dict or `None`. `X | None` is the modern spelling of `Optional[X]`. Check the result with `if record is not None:` (not `if record:`, which also skips an empty dict).
 
 **Class attribute**: a variable defined in the class body (not in `__init__`) is shared by every instance; read it as `self.NAME` or `ClassName.NAME`. Good for constant lookup tables: `VALUES = {"I": 1, "V": 5}`. Assigning `self.NAME = ...` creates an instance attribute that hides it.
 
