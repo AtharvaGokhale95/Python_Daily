@@ -43,7 +43,7 @@ Python_Daily/
 
 [PYTHON_REFERENCE.md](PYTHON_REFERENCE.md) is a short cheat sheet of the less-common Python used in these solutions.
 
-Re-solves (revisits) go in `problem-name/revisits/revisit_N_YYYY-MM-DD.py`: written from a blank file 7, 14 and 21 days after the first solve, with every approach as its own method (e.g. `twoSum_brute_force`, `twoSum_hash_map`). The problem's test file picks them up automatically. Each problem's `notes.md` has a Revisits table.
+Re-solves (revisits) go in `problem-name/revisits/revisit_N_YYYY-MM-DD.py`: written from a blank file 7, 14 and 21 days after the first solve (at most one revisit a day; clashes move to the next free day), with every approach as its own method (e.g. `twoSum_brute_force`, `twoSum_hash_map`). The problem's test file picks them up automatically. Each problem's `notes.md` has a Revisits table.
 
 ## Running the tests
 

@@ -4,7 +4,7 @@
 
 **Progress:** 9 / 106 solved · 0 mastered
 
-**Mastery rule:** every solved problem is re-solved from a blank file, without notes, 7, 14 and 21 days after I first solve it. Three clean re-solves = mastered; needing help restarts the schedule.
+**Mastery rule:** every solved problem is re-solved from a blank file, without notes, 7, 14 and 21 days after I first solve it. Three clean re-solves = mastered; needing help restarts the schedule. At most one revisit a day: when two fall on the same day, the later one moves to the next free day.
 
 Status: ✅ solved · ⭐ mastered · 🔜 up next · ⬜ not started. `DS` / `DE` = mainly asked for that role. *(optional)* = lower priority for DS / DE interviews.
 
