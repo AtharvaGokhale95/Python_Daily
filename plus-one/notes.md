@@ -154,6 +154,19 @@ _Idea:_ Do the addition the way you would on paper. Start at the last digit. If 
 **Test cases:** the same 9 cases and 6 bad inputs as Approach 1. All 15 pass. Also checked against the string method on 20,000 random inputs with no mismatches.
 
 
+## Revisits
+| # | Date | Approach | Result | Notes |
+|---|---|---|---|---|
+| 1 | 2026-11-25 | String conversion | Needed help | First submission failed every test: `self._validate()` was missing its `digits` argument, `string += digit` added an int to a str (`TypeError`: needs `str(digit)`), and `list.append(digit)` stored one-character strings instead of `int(digit)`. Fixed on the second submission. `list = []` still hides the built-in `list` in this method. |
+| 1 | 2026-11-25 | Using map() | Needed help | `int("".join(map(str, digits)))`, then `list(map(int, str(integer + 1)))`. Tests pass first time. |
+| 1 | 2026-11-25 | Carry from the right | Needed help | `reversed(range(end))`: below 9 add 1 and return, else write 0; `[1] + digits` when every digit was 9. Tests pass first time; it changes the caller's list (in place, as intended). |
+
+Revisit 1 was submitted on 11-26 and logged on its due date (11-25) at Atharva's request; he marked it "needed help", so the schedule restarts: retry due 12-02. All 45 revisit tests pass (15 per method), and 5,000 random inputs match an `int`-based reference for all three methods (inputs without leading zeros, which the problem promises). Timing for 4,000 nines: carry 1.6 ms, map 2.4 ms, string conversion 3.4 ms; the first two methods stop working at 4,300 digits (Python's int-to-string limit), the carry method does not.
+
+Review notes (revisit 1):
+- The `"""Approach …"""` strings come after `self._validate(digits)`, so they aren't docstrings. Fourth revisit in a row with this: put the docstring first, then validate.
+- Approach 1 failed because of a missing argument and two type mistakes (int vs str); running the revisit tests before submitting catches all three.
+
 ## Mistakes / edge cases
 - Approach 1: `list = []` shadows the built-in `list` for the rest of the method. It works here, but calling `list(...)` later in the same method would fail with `TypeError: 'list' object is not callable`. Use a name like `result`.
 - Approach 1: building a string with `+=` in a loop is fine for 100 digits; `"".join(str(d) for d in digits)` is the idiomatic version.
