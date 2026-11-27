@@ -10,8 +10,10 @@ Rules for every approach:
 - nums must be left unchanged (the tests check this).
 - An empty list has no duplicates: return False.
 
-Idea: TODO (sort a COPY with sorted(nums), because nums.sort() would change the caller's list; after sorting, equal values sit next to each other, so compare each value with the one before it)
-Time: O(?) | Space: O(?)
+Idea: Sort a copy of the list with sorted(nums). After sorting, equal values sit
+next to each other, so one pass comparing each value with the one before it
+finds any duplicate. sorted() returns a new list, so nums is left unchanged.
+Time: O(n log n) for the sort, then O(n) for the pass | Space: O(n) for the sorted copy
 """
 
 
@@ -29,8 +31,20 @@ class Solution:
             True if some value appears two or more times, otherwise False.
         """
         self._validate(nums)
-        # TODO: write your solution here
-        raise NotImplementedError
+        
+         # empty list returns False
+        if not nums:
+            return False
+        
+        # sorted() returns a new list without updating the original array
+        sorted_nums = sorted(nums)
+    
+        # Just the first element is always unique
+        # Start iterating from the second element and then compare it to the previous one to check for duplicates
+        for i in range(1, len(sorted_nums)):
+            if sorted_nums[i] == sorted_nums[i -1]:
+                return True
+        return False
 
     @staticmethod
     def _validate(nums: list[int]) -> None:

@@ -125,6 +125,15 @@ return False                       # after both loops: no pair matched
 ```
 `itertools.combinations(nums, 2)` yields the same pairs without index bookkeeping: `any(a == b for a, b in combinations(nums, 2))`.
 
+**`sorted(iterable)` vs `list.sort()`**: `sorted(nums)` returns a **new** sorted list and leaves `nums` alone; `nums.sort()` sorts the list in place and returns `None`, so `x = nums.sort()` leaves `x` as `None`. Both take O(n log n) time (Timsort, which is close to O(n) on data that is already sorted). Use `sorted()` when the caller's list must stay unchanged. Both accept `reverse=True` and `key=...`.
+```python
+sorted([3, 1, 2])          # [1, 2, 3], original untouched
+nums = [3, 1, 2]
+nums.sort()                # nums is now [1, 2, 3]; the call itself returned None
+```
+
+**Compare each item with the one before it**: `for i in range(1, len(seq)):` starts at the second item, so `seq[i - 1]` is always valid; a list of 0 or 1 items makes the range empty and the loop never runs. After sorting, equal values are neighbours, so `seq[i] == seq[i - 1]` finds duplicates. Same idea in one line: `any(a == b for a, b in zip(seq, seq[1:]))`.
+
 **`set()`**: unordered unique values with O(1) average `in`, `.add(x)` and `.discard(x)`. `{}` is an empty dict, so an empty set must be `set()`.
 Order-preserving dedupe in one line: `list(dict.fromkeys(nums))` (dicts keep insertion order).
 

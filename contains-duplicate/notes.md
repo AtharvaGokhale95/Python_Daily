@@ -14,6 +14,7 @@ Rules in this repo: `nums` must be left unchanged, an empty list returns `False`
 | # | Approach | Time | Space |
 |---|----------|------|-------|
 | 1 | Brute force (Day 12) | O(n²) | O(1) |
+| 2 | Sort, then compare neighbours (Day 13) | O(n log n) | O(n) |
 
 ### 1. Brute force
 _Idea:_ Compare every pair of elements. The outer loop picks an index `i`; the inner loop picks every index `j` **after** it, `range(i + 1, len(nums))`, so each pair is looked at once and no element is compared with itself. The moment `nums[i] == nums[j]`, return `True`. If both loops finish without a match, every element is distinct: return `False`. `nums` isn't sorted, so there is no shortcut: a duplicate can be anywhere.
@@ -107,6 +108,57 @@ Review notes:
 - The outer loop could stop one earlier, `range(len(nums) - 1)`, because the last `i` has no `j` after it. Harmless as written (an empty inner loop).
 - `_validate` accepts `True` / `False` as ints (`bool` is a subclass of `int`), so `[True, 1]` returns `True`. Fine for this problem.
 
+### 2. Sort, then compare neighbours
+_Idea:_ Duplicates are hard to spot in an unordered list, but easy once the list is sorted: equal values end up next to each other. Sort a **copy** (`sorted(nums)`), then walk through it comparing each value with the one before it. The first equal pair means a duplicate; if the walk ends without one, every value is distinct.
+
+**Complexity:** n = `len(nums)`. Sorting is O(n log n) (Python's sort is Timsort), and the walk is O(n), so O(n log n) overall. `sorted()` builds a second list of n items, so O(n) extra space. Timing (best of 3, all values distinct): 100,000 shuffled values 0.06 s, 1,000,000 shuffled values 0.89 s; the same values already in order take 0.03 s and 0.32 s, because Timsort is fast on data that is already sorted (about O(n)). Almost all of the time is the sort: `sorted()` alone takes 0.52 s of the 0.89 s.
+
+#### Code walkthrough: Approach 2
+
+**Structure and syntax**
+
+| Element | Where | What it does |
+|---|---|---|
+| `def containsDuplicate(self, nums: list[int]) -> bool:` | method | LeetCode's method name. `nums: list[int]` and `-> bool` are type hints: documentation only, Python does not enforce them (that is why `_validate` checks). |
+| `"""Return True if ..."""` | first statement | A docstring: it is the **first statement** of the method, so Python stores it as the method's documentation (`help(...)`). |
+| `self._validate(nums)` | first line of the body | Rejects bad input before any work (see below). |
+| `if not nums:` | empty check | `not nums` is `True` for an empty list (empty containers are falsy). |
+| `return False` | empty check | An empty list has no duplicates. A `return` leaves the method immediately. |
+| `sorted_nums = sorted(nums)` | sort | `sorted(iterable)` returns a **new** sorted list and never changes its argument. Compare `nums.sort()`, which sorts the list in place, returns `None`, and would break the "leave `nums` unchanged" rule. |
+| `for i in range(1, len(sorted_nums)):` | loop | `range(1, n)` gives `1, 2, ..., n - 1`: start at the second element, because the first one has nothing before it. For a one-element list the range is empty, so the loop body never runs. |
+| `sorted_nums[i] == sorted_nums[i - 1]` | loop body | `[i - 1]` is the element just before `i`. `==` asks "are the values equal?" (a single `=` would assign). |
+| `return True` | inside the `if` | Stops at the first equal pair; the rest of the list is never looked at. |
+| `return False` | after the loop | Reached only if the loop finished without finding an equal pair. |
+| `# ...` | comments | Everything after `#` on a line is ignored by Python. |
+
+**Trace for `nums = [3, 1, 2, 3]`**
+
+| Step | Value |
+|---|---|
+| `sorted(nums)` | `[1, 2, 3, 3]` (`nums` is still `[3, 1, 2, 3]`) |
+| `i = 1` | `2 == 1`? no |
+| `i = 2` | `3 == 2`? no |
+| `i = 3` | `3 == 3`? **yes** → `return True` |
+
+**`_validate`**
+
+| Element | What it does |
+|---|---|
+| `@staticmethod` | The method takes no `self`: it only looks at its argument. It is called as `self._validate(nums)`, which still works. The leading `_` is a convention for "internal helper". |
+| `isinstance(nums, list)` | `True` if `nums` is a list (or a subclass). A string, tuple, set or `None` fails → `TypeError`. |
+| `f"nums must be a list, got {type(nums).__name__}"` | An f-string: `{...}` is replaced by the value of the expression inside. `type(nums).__name__` is the type's name as text, e.g. `'str'`. |
+| `all(isinstance(num, int) for num in nums)` | `all()` is `True` if every item is truthy. The `for` expression inside is a generator: it produces one `True`/`False` per element, and `all()` stops at the first `False`. A float or string element → `TypeError`. |
+| `raise TypeError(...)` | Stops the method and signals the error to the caller. `TypeError` is Python's "wrong kind of value" error. |
+| Order | The list check runs first so that `all(... for num in nums)` is never run on something that is not a list. |
+
+**Tests:** `test_contains_duplicate.py` is shared by every approach, so the harness and the test-case table under Approach 1 apply unchanged. What matters most for this approach: `test_input_not_modified` (it rejects `nums.sort()`), `[2, 1, 2]` and `[9, 1, 2, 3, 9]` (duplicates that are not neighbours until the list is sorted), and the 100,000-element test (the sort has to stay fast).
+
+All 28 tests pass for this approach (checked with `python check.py contains-duplicate/solution_2_sorting.py --all`).
+
+Review notes:
+- `if not nums: return False` is correct but not needed: for an empty list `range(1, 0)` is empty, the loop never runs, and the method reaches `return False` anyway. Keeping the explicit check is fine as documentation.
+- `sorted()` was the right choice. `nums.sort()` would be O(1) extra space but changes the caller's list, which the tests reject.
+- Style nits: `sorted_nums[i -1]` reads better as `[i - 1]`, and the first comment line is indented one space too far.
 
 ## Mistakes / edge cases
 - Starting the inner loop at `0` (`range(len(nums))`) makes `j` reach `i`, and `nums[i] == nums[i]` is always true: every non-empty list would return `True`. Starting at `i + 1` is what makes it correct.
@@ -114,6 +166,10 @@ Review notes:
 - Compare values with `==`, not `is`. `is` asks "same object", not "equal": `int("1000") is int("1000")` is `False` even though the values are equal, because only small ints (−5 to 256) are shared.
 - Empty and one-element lists need no special case: the inner range is empty, so the loops end and `False` is returned.
 - Brute force is correct but too slow for 100,000 elements: n(n − 1) / 2 is about 5 billion comparisons.
+- (Sorting) `nums.sort()` returns `None` and changes the original; `sorted(nums)` returns a new list. Using `.sort()` breaks "leave `nums` unchanged".
+- (Sorting) The neighbour comparison only works **after** sorting; on an unsorted list it misses duplicates that are not adjacent (`[2, 1, 2]`).
 
 ## Key takeaway
 "Have I seen this value before?" is the question behind this problem. Brute force answers it by re-scanning the rest of the list for every element: n(n − 1) / 2 comparisons, O(n²) time, O(1) space. Correct, and the baseline to beat. The next approaches change how the question is answered: sorting puts equal values side by side (O(n log n)), and a set answers "seen before?" in O(1) (O(n) overall).
+
+Approach 2 adds the next idea: sort first, and duplicates become neighbours, so one comparison per element replaces one per pair. That gives O(n log n) with no extra data structure, but it costs a sorted copy (or a changed input); a hash set (Approach 3) does it in O(n).
