@@ -2,7 +2,7 @@
 
 92 Python DSA problems, grouped by pattern, plus 14 testing and A/B-testing problems (groups 16–17, done 1–2 a week alongside the DSA groups), to finish before applying for Data Scientist and Data Engineer roles. I solve them top to bottom, one group at a time: the easy problems teach the pattern's template, the mediums teach its variations. Most are LeetCode problems; the rest are data-Python problems (group-by, dedupe, sessionizing …), object-oriented Python exercises (classes, inheritance, exceptions, special methods) and data structures built from scratch. Machine learning is practised separately, not here.
 
-**Progress:** 9 / 106 solved · 0 mastered
+**Progress:** 10 / 106 solved · 0 mastered
 
 **Mastery rule:** every solved problem is re-solved from a blank file, without notes, 7, 14 and 21 days after I first solve it. Three clean re-solves = mastered; needing help restarts the schedule. At most one revisit a day: when two fall on the same day, the later one moves to the next free day.
 
@@ -11,7 +11,7 @@ Status: ✅ solved · ⭐ mastered · 🔜 up next · ⬜ not started. `DS` / `D
 | # | Pattern group | Solved |
 |--:|---|--:|
 | 1 | [Math & Strings](#1-math--strings) | 7/10 |
-| 2 | [Arrays & Hashing](#2-arrays--hashing) | 1/10 |
+| 2 | [Arrays & Hashing](#2-arrays--hashing) | 2/10 |
 | 3 | [Two Pointers](#3-two-pointers) | 1/7 |
 | 4 | [Sliding Window](#4-sliding-window) | 0/6 |
 | 5 | [Prefix Sum](#5-prefix-sum) | 0/3 |
@@ -47,12 +47,12 @@ Status: ✅ solved · ⭐ mastered · 🔜 up next · ⬜ not started. `DS` / `D
 
 ## 2. Arrays & Hashing
 
-**Spot it:** "Seen before?", "count", "group by" → dict, set, Counter. · 1/10 solved
+**Spot it:** "Seen before?", "count", "group by" → dict, set, Counter. · 2/10 solved
 
 | # | Problem | Pattern | Difficulty | Status | Solution |
 |--:|---|---|---|:-:|---|
 | 11 | [Two Sum](https://leetcode.com/problems/two-sum/) · LC 1 | Complement lookup in a dict | Easy | ✅ | [two-sum](two-sum/) |
-| 12 | [Contains Duplicate](https://leetcode.com/problems/contains-duplicate/) · LC 217 | Set membership | Easy | ⬜ |  |
+| 12 | [Contains Duplicate](https://leetcode.com/problems/contains-duplicate/) · LC 217 | Set membership | Easy | ✅ | [contains-duplicate](contains-duplicate/) |
 | 13 | [Valid Anagram](https://leetcode.com/problems/valid-anagram/) · LC 242 | Frequency count (Counter) | Easy | ⬜ |  |
 | 14 | [Group Anagrams](https://leetcode.com/problems/group-anagrams/) · LC 49 | Group by a canonical key | Medium | ⬜ |  |
 | 15 | [Top K Frequent Elements](https://leetcode.com/problems/top-k-frequent-elements/) · LC 347 | Count + bucket sort | Medium | ⬜ |  |

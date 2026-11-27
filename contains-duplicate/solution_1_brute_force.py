@@ -10,8 +10,10 @@ Rules for every approach:
 - nums must be left unchanged (the tests check this).
 - An empty list has no duplicates: return False.
 
-Idea: TODO (two loops: i over every index, j over the indexes after i with range(i + 1, len(nums)); return True the moment nums[i] == nums[j]; if no pair matched, return False)
-Time: O(?) | Space: O(?)
+Idea: Check every pair (i, j) with i < j: the outer loop picks i, the inner loop
+picks j from range(i + 1, len(nums)). Return True the moment nums[i] == nums[j];
+if no pair matched, return False.
+Time: O(n^2), n(n - 1) / 2 comparisons when there is no duplicate | Space: O(1)
 """
 
 
@@ -29,8 +31,17 @@ class Solution:
             True if some value appears two or more times, otherwise False.
         """
         self._validate(nums)
-        # TODO: write your solution here
-        raise NotImplementedError
+        
+        # nums is not a sorted array so for every i; j iterates over range (i + 1, len(nums))
+        # return True -> the moment nums[i] == nums[j]
+        # if no pair matched -> return False
+        
+        for i in range (len(nums)):
+            for j in range(i + 1, len(nums)):
+                if nums[i] == nums[j]:
+                    return True
+        return False
+        
 
     @staticmethod
     def _validate(nums: list[int]) -> None:

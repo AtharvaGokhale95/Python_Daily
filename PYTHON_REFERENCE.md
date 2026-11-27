@@ -86,6 +86,9 @@ isinstance(nums, list) and len(nums) > 10   # len() only runs on a list
 all(0 <= d <= 9 for d in digits)
 ```
 
+**`==` vs `is`**: `==` asks "are the values equal?"; `is` asks "is it the very same object?". Compare values with `==`; keep `is` for `None`, `True` and `False` (`if x is None`).
+Gotcha: equal ints are not always the same object: only small ints (-5 to 256) are shared, so `int("1000") is int("1000")` is `False` while `==` is `True`.
+
 **Return a comparison directly**: a comparison is already `True` or `False`.
 ```python
 return s == s[::-1]
@@ -111,6 +114,16 @@ Gotcha: `[[]] * 3` repeats the **same** inner list three times, so changing one 
 "12345"[1:3]   # '23'
 "12345"[::-1]  # '54321'
 ```
+
+**Every pair `i < j` with two loops**: the inner loop starts one past the outer index, so each pair is visited once and no element meets itself. n items give n(n - 1) / 2 pairs, which is O(n^2). A `return` inside the inner loop leaves **both** loops and the function.
+```python
+for i in range(len(nums)):
+    for j in range(i + 1, len(nums)):
+        if nums[i] == nums[j]:
+            return True
+return False                       # after both loops: no pair matched
+```
+`itertools.combinations(nums, 2)` yields the same pairs without index bookkeeping: `any(a == b for a, b in combinations(nums, 2))`.
 
 **`set()`**: unordered unique values with O(1) average `in`, `.add(x)` and `.discard(x)`. `{}` is an empty dict, so an empty set must be `set()`.
 Order-preserving dedupe in one line: `list(dict.fromkeys(nums))` (dicts keep insertion order).
@@ -168,6 +181,20 @@ else:
     raise AssertionError(f"FAIL -> returned {result}")
 ```
 Exception classes are ordinary values, so `except exc:` works with `exc` holding `ValueError`.
+
+**pytest: `parametrize`, `pytest.param`, `pytest.raises`**: one test function runs once per row of data. Stacking two `parametrize` decorators runs every combination. `pytest.param(value, expected, id="name")` gives a row a readable name; `ids=repr` names rows from the value itself. `pytest.raises(Error)` passes only if the code inside the `with` block raises that error.
+```python
+@pytest.mark.parametrize("nums, expected", [
+    pytest.param([1, 2, 1], True, id="duplicate"),
+    pytest.param([], False, id="empty"),
+])
+def test_cases(nums, expected):
+    assert solve(nums) is expected      # `is` needs a real bool; `1 == True` would pass `==`
+
+def test_bad_input():
+    with pytest.raises(TypeError):
+        solve("123")
+```
 
 ## Dates
 
