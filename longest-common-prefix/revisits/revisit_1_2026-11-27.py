@@ -1,5 +1,5 @@
 """
-Longest Common Prefix | Revisit 1 of 3 (due 2026-11-26)
+Longest Common Prefix | Revisit 1 of 3 (due 2026-11-27)
 Topic: Strings | Difficulty: Easy
 https://leetcode.com/problems/longest-common-prefix/
 
