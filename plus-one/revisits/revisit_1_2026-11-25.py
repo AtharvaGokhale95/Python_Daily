@@ -25,21 +25,38 @@ Fill in the results (clean / needed help) when you are done.
 
 class Solution:
     def plusOne_string_conversion(self, digits: list[int]) -> list[int]:
+        self._validate()
+        
         """Approach 1: String conversion."""
-        # TODO: write your solution here
-        raise NotImplementedError
+        # Convert digits to string -> convert to int -> add one
+        # Using for loop again create a new list for integer_plusOne
+        string = ""
+        for digit in digits:
+            string += digit
+        
+        integer = int(string)
+        integer_plusOne = integer + 1
+        
+        list = []
+        for digit in str(integer_plusOne):
+            list.append(digit)
+        return list
 
     def plusOne_map(self, digits: list[int]) -> list[int]:
         """Approach 2: Using map()."""
-        # TODO: write your solution here
-        raise NotImplementedError
+        
 
     def plusOne_carry(self, digits: list[int]) -> list[int]:
         """Approach 3: Carry from the right (in place)."""
-        # TODO: write your solution here
-        raise NotImplementedError
+        
 
     @staticmethod
     def _validate(digits: list[int]) -> None:
-        # TODO: write the validation here, then call self._validate(digits) first in each method
-        raise NotImplementedError
+        if not isinstance(digits, list):
+            raise TypeError(f"digits must be a list, got {type(digits).__name__}")
+        if not all(isinstance(d, int) for d in digits):
+            raise TypeError("Every element in digits must be an int")
+        if len(digits) == 0:
+            raise ValueError("digits must not be empty")
+        if not all(0 <= d <= 9 for d in digits):
+            raise ValueError("Every digit must be between 0 and 9")

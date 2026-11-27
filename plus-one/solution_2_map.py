@@ -32,7 +32,7 @@ class Solution:
         
         # map(function, iterable) applies a function to every item and returns a lazy iterator. Wrap it in list()
         integer = int("".join(map(str, digits)))            # converted the digits into into individual strings - joined them into a single string - typecasted them to int
-        return list(map(int, str(integer + 1)))                   # added 1 to integer - typecasted that int into string - mapped the string into int - stored in the list
+        return list(map(int, str(integer + 1)))             # added 1 to integer - typecasted that int into string - mapped the string into int - stored in the list
         
 
     @staticmethod
